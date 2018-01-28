@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="即将毕业">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Xavier&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Lambda匿名函数表达式 最主要的特点：可以将函数作为参数传入方法 实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如Runnable接口，内部只有run()方法待实现，那么就可以用Lambda表达式实现Runnable接口：  Runnable run = () -&amp;gt; System.out.println(&amp;quot;run&amp;quot;)  Thread t =">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8新特性简单介绍">
+<meta property="og:url" content="http://yoursite.com/2018/01/29/Java8新特性简单介绍/index.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="即将毕业">
+<meta property="og:description" content="Lambda匿名函数表达式 最主要的特点：可以将函数作为参数传入方法 实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如Runnable接口，内部只有run()方法待实现，那么就可以用Lambda表达式实现Runnable接口：  Runnable run = () -&amp;gt; System.out.println(&amp;quot;run&amp;quot;)  Thread t =">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-28T11:57:26.668Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xavier&#39;s Blog">
-<meta name="twitter:description" content="即将毕业">
+<meta name="twitter:title" content="Java8新特性简单介绍">
+<meta name="twitter:description" content="Lambda匿名函数表达式 最主要的特点：可以将函数作为参数传入方法 实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如Runnable接口，内部只有run()方法待实现，那么就可以用Lambda表达式实现Runnable接口：  Runnable run = () -&amp;gt; System.out.println(&amp;quot;run&amp;quot;)  Thread t =">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/29/Java8新特性简单介绍/"/>
 
 
 
 
 
-  <title>Xavier's Blog</title>
+  <title>Java8新特性简单介绍 | Xavier's Blog</title>
   
 
 
@@ -143,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,9 +238,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -269,9 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/29/Java8新特性简单介绍/" itemprop="url">Java8新特性简单介绍</a></h1>
+          <h1 class="post-title" itemprop="name headline">Java8新特性简单介绍</h1>
         
 
         <div class="post-meta">
@@ -283,7 +282,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T19:28:49Z">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T03:28:49+08:00">
                 2018/01/28
               </time>
             
@@ -365,9 +364,7 @@
       
 
       
-        
-          
-            <h2 id="Lambda匿名函数表达式"><a href="#Lambda匿名函数表达式" class="headerlink" title="Lambda匿名函数表达式"></a>Lambda匿名函数表达式</h2><ul>
+        <h2 id="Lambda匿名函数表达式"><a href="#Lambda匿名函数表达式" class="headerlink" title="Lambda匿名函数表达式"></a>Lambda匿名函数表达式</h2><ul>
 <li>最主要的特点：可以将函数作为参数传入方法</li>
 <li><p>实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如<code>Runnable</code>接口，内部只有<code>run()</code>方法待实现，那么就可以用Lambda表达式实现<code>Runnable</code>接口：<br>  <code>Runnable run = () -&gt; System.out.println(&quot;run&quot;)</code><br>  <code>Thread t = new Thread(() -&gt;System.out.println(&quot;run&quot;))</code><br>  的方式来实现Thread，而不是古老的显式Override的方式。</p>
 </li>
@@ -422,8 +419,6 @@
 <h2 id="其他特性"><a href="#其他特性" class="headerlink" title="其他特性"></a>其他特性</h2><p>Nashorn, JavaScript 引擎<br>新的日期API，不需要使用Date+Calendar对日期操作<br>Java8内置了Base64的编码器和解码器</p>
 <p>不再一一赘述</p>
 
-          
-        
       
     </div>
     
@@ -438,164 +433,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/me.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xavier's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/28/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T06:07:21Z">
-                2018/01/28
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/01/28/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/28/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/01/28/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/28/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -605,10 +472,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -616,6 +484,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -636,8 +518,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -717,6 +608,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda匿名函数表达式"><span class="nav-number">1.</span> <span class="nav-text">Lambda匿名函数表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法引用"><span class="nav-number">2.</span> <span class="nav-text">方法引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法引用示例"><span class="nav-number">2.1.</span> <span class="nav-text">方法引用示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数式接口"><span class="nav-number">3.</span> <span class="nav-text">函数式接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认方法"><span class="nav-number">4.</span> <span class="nav-text">默认方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stream"><span class="nav-number">5.</span> <span class="nav-text">Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#产生流对象"><span class="nav-number">5.1.</span> <span class="nav-text">产生流对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对流进行操作"><span class="nav-number">5.2.</span> <span class="nav-text">对流进行操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新收集流对象"><span class="nav-number">5.3.</span> <span class="nav-text">重新收集流对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optional"><span class="nav-number">6.</span> <span class="nav-text">Optional</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他特性"><span class="nav-number">7.</span> <span class="nav-text">其他特性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -850,6 +757,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -867,6 +778,18 @@
       <script id="dsq-count-scr" src="https://xavier.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/01/29/Java8新特性简单介绍/';
+          this.page.identifier = '2018/01/29/Java8新特性简单介绍/';
+          this.page.title = 'Java8新特性简单介绍';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://xavier.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
