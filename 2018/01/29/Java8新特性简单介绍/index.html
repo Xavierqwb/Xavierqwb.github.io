@@ -65,10 +65,14 @@
   <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
 
 
+  <link rel="manifest" href="/images/manifest.json">
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml" />
 
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="Java基础," />
 
 
 
@@ -79,18 +83,18 @@
 
 
 
-<meta name="description" content="Lambda匿名函数表达式 最主要的特点：可以将函数作为参数传入方法 实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如Runnable接口，内部只有run()方法待实现，那么就可以用Lambda表达式实现Runnable接口：  Runnable run = () -&amp;gt; System.out.println(&amp;quot;run&amp;quot;)  Thread t =">
-<meta name="keywords" content="Java">
+<meta name="description" content="Java8发布带来了不少新特性，如Lambda表达式、Stream流计算、函数式接口等，接下来让我们深入了解一下这些新特性">
+<meta name="keywords" content="Java基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8新特性简单介绍">
 <meta property="og:url" content="http://yoursite.com/2018/01/29/Java8新特性简单介绍/index.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="Lambda匿名函数表达式 最主要的特点：可以将函数作为参数传入方法 实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如Runnable接口，内部只有run()方法待实现，那么就可以用Lambda表达式实现Runnable接口：  Runnable run = () -&amp;gt; System.out.println(&amp;quot;run&amp;quot;)  Thread t =">
+<meta property="og:description" content="Java8发布带来了不少新特性，如Lambda表达式、Stream流计算、函数式接口等，接下来让我们深入了解一下这些新特性">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-28T11:57:26.668Z">
+<meta property="og:updated_time" content="2018-01-28T13:22:31.830Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8新特性简单介绍">
-<meta name="twitter:description" content="Lambda匿名函数表达式 最主要的特点：可以将函数作为参数传入方法 实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如Runnable接口，内部只有run()方法待实现，那么就可以用Lambda表达式实现Runnable接口：  Runnable run = () -&amp;gt; System.out.println(&amp;quot;run&amp;quot;)  Thread t =">
+<meta name="twitter:description" content="Java8发布带来了不少新特性，如Lambda表达式、Stream流计算、函数式接口等，接下来让我们深入了解一下这些新特性">
 
 
 
@@ -100,7 +104,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -305,8 +309,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程语言/" itemprop="url" rel="index">
-                    <span itemprop="name">编程语言</span>
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
                   </a>
                 </span>
 
@@ -350,6 +354,10 @@
           
 
           
+              <div class="post-description">
+                  Java8发布带来了不少新特性，如Lambda表达式、Stream流计算、函数式接口等，接下来让我们深入了解一下这些新特性
+              </div>
+          
 
         </div>
       </header>
@@ -364,7 +372,8 @@
       
 
       
-        <h2 id="Lambda匿名函数表达式"><a href="#Lambda匿名函数表达式" class="headerlink" title="Lambda匿名函数表达式"></a>Lambda匿名函数表达式</h2><ul>
+        <p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h2 id="Lambda匿名函数表达式"><a href="#Lambda匿名函数表达式" class="headerlink" title="Lambda匿名函数表达式"></a>Lambda匿名函数表达式</h2><ul>
 <li>最主要的特点：可以将函数作为参数传入方法</li>
 <li><p>实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如<code>Runnable</code>接口，内部只有<code>run()</code>方法待实现，那么就可以用Lambda表达式实现<code>Runnable</code>接口：<br>  <code>Runnable run = () -&gt; System.out.println(&quot;run&quot;)</code><br>  <code>Thread t = new Thread(() -&gt;System.out.println(&quot;run&quot;))</code><br>  的方式来实现Thread，而不是古老的显式Override的方式。</p>
 </li>
@@ -418,7 +427,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">optional.get(); <span class="comment">// 如果非null则返回对象，如果是null则抛出NoSuchElementException异常</span></span><br><span class="line">optional.isPresent(); <span class="comment">//如果非null返回true，是null则返回false</span></span><br><span class="line"><span class="comment">// 下面两句的效果是一样的</span></span><br><span class="line">optional.ifPresent(System.out::println); </span><br><span class="line"><span class="keyword">if</span>(optional.isPresent()) &#123;</span><br><span class="line">    System.out.println(optional.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">optional.orElse(<span class="string">""</span>); <span class="comment">//如果为null则返回传入的对象，否则返回内部的对象</span></span><br><span class="line"></span><br><span class="line">optional.orElseGet(String::<span class="keyword">new</span>); <span class="comment">//如果为null则返回supplier.get, supplier则为传入的接口</span></span><br><span class="line"></span><br><span class="line">optional.orElseThrow(exceptionSupplier); <span class="comment">//如果为null则抛出exceptionSupplier.get，这是一个异常生成的接口</span></span><br><span class="line"></span><br><span class="line">optional = optional.map((s) -&gt; s + <span class="string">"!"</span>); <span class="comment">//如果不为null，则对内部的对象做一个映射并返回Optional对象，如果为null则返回空Optional对象</span></span><br><span class="line"></span><br><span class="line">optional = optional.flatMap((s) -&gt; Optional.of(s + <span class="string">"!"</span>)); <span class="comment">//和map不同的一点是，flatMap传入的接口必须返回Optional对象，而map会自动封装</span></span><br><span class="line"></span><br><span class="line">optional = optional.filter((s) -&gt; s.length() &gt; <span class="number">6</span>);<span class="comment">// 有点像Stream的filter函数，但是不同的是，Stream中包含了大量元素，因此多数时候会有剩下的，但是Optional的filter更像是断言，true则原样返回，false则返回空Optional对象</span></span><br></pre></td></tr></table></figure>
 <h2 id="其他特性"><a href="#其他特性" class="headerlink" title="其他特性"></a>其他特性</h2><p>Nashorn, JavaScript 引擎<br>新的日期API，不需要使用Date+Calendar对日期操作<br>Java8内置了Base64的编码器和解码器</p>
 <p>不再一一赘述</p>
-
+<hr>
       
     </div>
     
@@ -435,7 +444,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
           
         </div>
       
@@ -547,7 +556,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -558,7 +567,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -569,7 +578,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -640,7 +649,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-fire"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wenbin Qiu  邱稳斌</span>
 
@@ -652,11 +661,7 @@
 
 
 
-  <span class="post-meta-divider">|</span>
 
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -676,6 +681,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
