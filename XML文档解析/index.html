@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Python,XML," />
 
 
 
@@ -84,16 +84,18 @@
 
 
 
-<meta name="description" content="即将毕业">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Xavier&#39;s Blog">
-<meta property="og:url" content="http://xaiverqwb.github.io/page/2/index.html">
+<meta name="description" content="在Python中解析XML文档">
+<meta name="keywords" content="Python,XML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python XML文档解析">
+<meta property="og:url" content="http://xaiverqwb.github.io/XML文档解析/index.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="即将毕业">
+<meta property="og:description" content="在Python中解析XML文档">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-29T05:57:32.132Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xavier&#39;s Blog">
-<meta name="twitter:description" content="即将毕业">
+<meta name="twitter:title" content="Python XML文档解析">
+<meta name="twitter:description" content="在Python中解析XML文档">
 
 
 
@@ -123,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://xaiverqwb.github.io/page/2/"/>
+  <link rel="canonical" href="http://xaiverqwb.github.io/XML文档解析/"/>
 
 
 
 
 
-  <title> Hexo, NexT - Xavier's Blog即将毕业 </title>
+  <title>Python XML文档解析 | Xavier's Blog</title>
   
 
 
@@ -148,8 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -242,9 +243,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -257,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/Python发送http请求/">
+    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/XML文档解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
@@ -274,9 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Python发送http请求/" itemprop="url">Python发送http请求</a></h1>
+          <h1 class="post-title" itemprop="name headline">Python XML文档解析</h1>
         
 
         <div class="post-meta">
@@ -288,7 +287,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T13:51:12Z">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T21:55:29+08:00">
                 2017/02/04
               </time>
             
@@ -329,9 +328,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/Python发送http请求/#comments" itemprop="discussionUrl">
+                <a href="/XML文档解析/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="Python发送http请求/" itemprop="commentCount"></span>
+                        data-disqus-identifier="XML文档解析/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -339,7 +338,7 @@
 
           
           
-             <span id="/Python发送http请求/" class="leancloud_visitors" data-flag-title="Python发送http请求">
+             <span id="/XML文档解析/" class="leancloud_visitors" data-flag-title="Python XML文档解析">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -357,7 +356,7 @@
 
           
               <div class="post-description">
-                  在Python中，发送http请求的简单教程
+                  在Python中解析XML文档
               </div>
           
 
@@ -374,16 +373,22 @@
       
 
       
-        
-          <p class="description"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/Python发送http请求/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p class="description"></p>
+
+<a id="more"></a>
+<p>在配置Jenkins的jobs的时候，需要用到对XML文件的操作，因此在网上找了一些方法，总结一下：</p>
+<h2 id="xml-xtree-Element库"><a href="#xml-xtree-Element库" class="headerlink" title="xml.xtree.Element库"></a>xml.xtree.Element库</h2><p>需要引入以下几个包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xml.etree.ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="keyword">from</span> xml.etree.ElementTree <span class="keyword">import</span> ElementTree, Element</span><br></pre></td></tr></table></figure>
+<h3 id="读取XML文件到Python脚本中："><a href="#读取XML文件到Python脚本中：" class="headerlink" title="读取XML文件到Python脚本中："></a>读取XML文件到Python脚本中：</h3><h4 id="方法一：从文件中读取"><a href="#方法一：从文件中读取" class="headerlink" title="方法一：从文件中读取"></a>方法一：从文件中读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree = ElementTree()</span><br><span class="line">tree.parse(xmlPath)</span><br></pre></td></tr></table></figure>
+<h4 id="方法二：从字符串中读取"><a href="#方法二：从字符串中读取" class="headerlink" title="方法二：从字符串中读取"></a>方法二：从字符串中读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree = ET.fromstring(xmlString)</span><br></pre></td></tr></table></figure>
+<h3 id="寻找某个节点-nodeName或Path"><a href="#寻找某个节点-nodeName或Path" class="headerlink" title="寻找某个节点(nodeName或Path)"></a>寻找某个节点(nodeName或Path)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node = tree.find(tagNameOrPath) <span class="comment"># 可以通过tag name或者path寻找到第一个符合的节点，没有找到返回None</span></span><br></pre></td></tr></table></figure>
+<h3 id="增加-改变-删除节点的属性"><a href="#增加-改变-删除节点的属性" class="headerlink" title="增加/改变/删除节点的属性"></a>增加/改变/删除节点的属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.set(key, value) <span class="comment"># 增加或修改node下名称为key的属性，值为value</span></span><br><span class="line"><span class="keyword">del</span> node.attrib[key] <span class="comment"># 删除node下名称为key的属性</span></span><br></pre></td></tr></table></figure>
+<h3 id="对节点增加-改变-删除文本"><a href="#对节点增加-改变-删除文本" class="headerlink" title="对节点增加/改变/删除文本"></a>对节点增加/改变/删除文本</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">node.text += text <span class="comment"># 增加</span></span><br><span class="line">node.text = text <span class="comment"># 改变</span></span><br><span class="line">node.text = <span class="string">''</span> <span class="comment"># 删除</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">总之，对node.text进行操作就对了</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建一个新的节点"><a href="#创建一个新的节点" class="headerlink" title="创建一个新的节点"></a>创建一个新的节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element = Element(tag, propertyDict) <span class="comment"># tag是新节点的名称，propertyDict是新节点的属性字典</span></span><br><span class="line">element.text = text <span class="comment"># 新节点的文本内容</span></span><br></pre></td></tr></table></figure>
+<h3 id="在节点下加入-删除节点"><a href="#在节点下加入-删除节点" class="headerlink" title="在节点下加入/删除节点"></a>在节点下加入/删除节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.append(element) <span class="comment"># 加入多个节点时可以用extend(subelements)</span></span><br><span class="line">node.remove(element) <span class="comment"># 删除node下的element节点</span></span><br></pre></td></tr></table></figure>
+<p>更多细节，可以查看官方文档：</p>
+<p><a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml-tree-and-elements" target="_blank" rel="noopener">https://docs.python.org/2/library/xml.etree.elementtree.html#xml-tree-and-elements</a></p>
+<hr>
       
     </div>
     
@@ -398,358 +403,42 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/Python解析properties脚本/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/me.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xavier's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Python解析properties脚本/" itemprop="url">Python解析properties脚本</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-03T13:45:58Z">
-                2017/02/03
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
-
+            <a href="/tags/XML/" rel="tag"># XML</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/Python解析properties脚本/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="Python解析properties脚本/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/Python解析properties脚本/" class="leancloud_visitors" data-flag-title="Python解析properties脚本">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-              <div class="post-description">
-                  在Python中解析properties文件的脚本
-              </div>
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p class="description"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/Python解析properties脚本/" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Python发送http请求/" rel="next" title="Python发送http请求">
+                <i class="fa fa-chevron-left"></i> Python发送http请求
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/Google-Java-style中文版/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/me.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xavier's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Google-Java-style中文版/" itemprop="url">Google Java style中文版</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-22T13:58:49Z">
-                2017/01/22
-              </time>
+              <a href="/Python-Json包的使用/" rel="prev" title="Python中json包的使用">
+                Python中json包的使用 <i class="fa fa-chevron-right"></i>
+              </a>
             
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java基础/" itemprop="url" rel="index">
-                    <span itemprop="name">Java基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/Google-Java-style中文版/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="Google-Java-style中文版/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/Google-Java-style中文版/" class="leancloud_visitors" data-flag-title="Google Java style中文版">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-              <div class="post-description">
-                  Google出品的Java编程规范，转载自：http://www.blogjava.net/zh-weir/archive/2014/02/08/409608.html
-              </div>
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p class="description"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/Google-Java-style中文版/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -759,14 +448,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -774,6 +460,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -794,8 +494,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -875,6 +584,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#xml-xtree-Element库"><span class="nav-number">1.</span> <span class="nav-text">xml.xtree.Element库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取XML文件到Python脚本中："><span class="nav-number">1.1.</span> <span class="nav-text">读取XML文件到Python脚本中：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一：从文件中读取"><span class="nav-number">1.1.1.</span> <span class="nav-text">方法一：从文件中读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二：从字符串中读取"><span class="nav-number">1.1.2.</span> <span class="nav-text">方法二：从字符串中读取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寻找某个节点-nodeName或Path"><span class="nav-number">1.2.</span> <span class="nav-text">寻找某个节点(nodeName或Path)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加-改变-删除节点的属性"><span class="nav-number">1.3.</span> <span class="nav-text">增加/改变/删除节点的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对节点增加-改变-删除文本"><span class="nav-number">1.4.</span> <span class="nav-text">对节点增加/改变/删除文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个新的节点"><span class="nav-number">1.5.</span> <span class="nav-text">创建一个新的节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在节点下加入-删除节点"><span class="nav-number">1.6.</span> <span class="nav-text">在节点下加入/删除节点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1006,6 +731,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1023,6 +752,18 @@
       <script id="dsq-count-scr" src="https://xavier.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://xaiverqwb.github.io/XML文档解析/';
+          this.page.identifier = 'XML文档解析/';
+          this.page.title = 'Python XML文档解析';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://xavier.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
