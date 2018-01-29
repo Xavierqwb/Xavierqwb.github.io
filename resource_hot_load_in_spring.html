@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="取余,哈希,HashMap," />
+  <meta name="keywords" content="Springboot," />
 
 
 
@@ -84,20 +84,20 @@
 
 
 
-<meta name="description" content="在HashMap的源码中，对对象进行哈希时，并不是直接使用%进行取余，而是使用了位与运算，本文就介绍了这种计算方式的原理">
-<meta name="keywords" content="取余,哈希,HashMap">
+<meta name="description" content="当Spring项目启动的时候，会将src/main/resources目录下的所有资源文件加载入classpath，但是在项目启动之后加入到resources目录下的资源并不会被加载。可以通过简单的配置，使得Spring应用在运行时可以自动加载被添加到resources目录下的资源文件">
+<meta name="keywords" content="Springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="位与运算，与取余">
-<meta property="og:url" content="http://xaiverqwb.github.io/位与运算，与取余/index.html">
+<meta property="og:title" content="Springboot资源热加载">
+<meta property="og:url" content="http://xaiverqwb.github.io/resource_hot_load_in_spring.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="在HashMap的源码中，对对象进行哈希时，并不是直接使用%进行取余，而是使用了位与运算，本文就介绍了这种计算方式的原理">
+<meta property="og:description" content="当Spring项目启动的时候，会将src/main/resources目录下的所有资源文件加载入classpath，但是在项目启动之后加入到resources目录下的资源并不会被加载。可以通过简单的配置，使得Spring应用在运行时可以自动加载被添加到resources目录下的资源文件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://latex.codecogs.com/gif.latex?m=2^{n}">
-<meta property="og:updated_time" content="2018-01-28T13:26:40.548Z">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg">
+<meta property="og:updated_time" content="2018-01-29T10:49:11.719Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="位与运算，与取余">
-<meta name="twitter:description" content="在HashMap的源码中，对对象进行哈希时，并不是直接使用%进行取余，而是使用了位与运算，本文就介绍了这种计算方式的原理">
-<meta name="twitter:image" content="http://latex.codecogs.com/gif.latex?m=2^{n}">
+<meta name="twitter:title" content="Springboot资源热加载">
+<meta name="twitter:description" content="当Spring项目启动的时候，会将src/main/resources目录下的所有资源文件加载入classpath，但是在项目启动之后加入到resources目录下的资源并不会被加载。可以通过简单的配置，使得Spring应用在运行时可以自动加载被添加到resources目录下的资源文件">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://xaiverqwb.github.io/位与运算，与取余/"/>
+  <link rel="canonical" href="http://xaiverqwb.github.io/resource_hot_load_in_spring.html"/>
 
 
 
 
 
-  <title>位与运算，与取余 | Xavier's Blog</title>
+  <title>Springboot资源热加载 | Xavier's Blog</title>
   
 
 
@@ -260,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/位与运算，与取余/">
+    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/resource_hot_load_in_spring.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
@@ -277,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">位与运算，与取余</h1>
+          <h1 class="post-title" itemprop="name headline">Springboot资源热加载</h1>
         
 
         <div class="post-meta">
@@ -289,8 +289,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-14T04:13:34+08:00">
-                2017/05/13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T23:06:46+08:00">
+                2018/01/29
               </time>
             
 
@@ -312,8 +312,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java基础/" itemprop="url" rel="index">
-                    <span itemprop="name">Java基础</span>
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
                   </a>
                 </span>
 
@@ -330,9 +330,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/位与运算，与取余/#comments" itemprop="discussionUrl">
+                <a href="/resource_hot_load_in_spring.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="位与运算，与取余/" itemprop="commentCount"></span>
+                        data-disqus-identifier="resource_hot_load_in_spring.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -340,7 +340,7 @@
 
           
           
-             <span id="/位与运算，与取余/" class="leancloud_visitors" data-flag-title="位与运算，与取余">
+             <span id="/resource_hot_load_in_spring.html" class="leancloud_visitors" data-flag-title="Springboot资源热加载">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -358,7 +358,7 @@
 
           
               <div class="post-description">
-                  在HashMap的源码中，对对象进行哈希时，并不是直接使用%进行取余，而是使用了位与运算，本文就介绍了这种计算方式的原理
+                  当Spring项目启动的时候，会将src/main/resources目录下的所有资源文件加载入classpath，但是在项目启动之后加入到resources目录下的资源并不会被加载。可以通过简单的配置，使得Spring应用在运行时可以自动加载被添加到resources目录下的资源文件
               </div>
           
 
@@ -375,25 +375,82 @@
       
 
       
-        <p></p><p class="description"></p><br><a id="more"></a><p></p>
-<h3 id="关于位与运算-amp-与取余"><a href="#关于位与运算-amp-与取余" class="headerlink" title="关于位与运算&amp;与取余"></a>关于位与运算&amp;与取余</h3><p>今天在研究hashmap源码的时候，发现其源码中在解决Entry分布时，本来大多数人以为会用<code>index = hash % length</code>，但是源码中却使用了<code>index = hash &amp; (lenth -1)</code>的方式。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="bullet">* </span>The default initial capacity - MUST be </span>a<span class="markdown"> power of two.</span></span></span><br><span class="line"><span class="comment"><span class="markdown">*/</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br></pre></td></tr></table></figure>
-<p>另外由上述还可以注意到，在源码中对于Entry数组容量的定义中，要求容量必须为2的n次幂（或0），于是就搜索查询了一下用意。</p>
-<p>原来位与也是可以用来取余的，但是有一个条件：除数必须是2的n次幂才行。举例子来说明：</p>
-<pre><code>9%8=1
- 1001 &amp; （1000 - 1）
-=1001 &amp; 0111
-=1 // 1001是9的二进制表示，1000是8的二进制表示
-</code></pre><p>其实很明显了，在二进制计算中，众所周知的是，一个数右移1位相当于除以2的商，而恰巧被移除出去的那一位就是除以2得到的余数，例如：</p>
-<pre><code> 9 &gt;&gt; 1
-=1001 &gt;&gt; 1
-=100 | 1
-=4 余 1
-</code></pre><p>而且，不仅是除以2，对于一个数k要除以2的n次方，也就是相当于把k向右移n位，而被移出去的n位即正好是我们要求是余数。</p>
-<p>那么问题就简单了，实际上，对于除数是2的n次方的算式，我们只需要得到被除数的低n位就可以了，而正好，对于2的n次方这样的数，我们将其转换为二进制之后，它就是第n+1位为1，其余低位都为0的数，因此我们将其减1，就得到了第n+1位为0，而其他位都为1的数，用此数与被除数k进行位与运算，就得到了被除数的低n位二进制数，也即是取余的结果。</p>
-<h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3><p>若一个数m满足：</p>
-<p><img src="http://latex.codecogs.com/gif.latex?m=2^{n}" alt="示例"></p>
-<p>那么<code>k % m = k &amp; (m-1)</code></p>
+        <p></p><p class="description"></p><br><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg" alt="" style="width:50%"><br><a id="more"></a><p></p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>在做一个内容销售系统的时候，遇到一个问题：</p>
+<pre><code>在将商品摆上货架时，如果使用的图片是通过文件上传的形式发送到后端，后端将其保存到resources目录中，在使用服务端本地的资源显示该图片时，会出现加载不出来的情况，只有当服务器重新启动，才能看到这些图片。
+</code></pre><p>在自己实验、Google、百度了一通之后，得出一个结论，就是Spring默认会在应用启动时加载resources中的资源，一旦应用启动，之后放入resources中的资源将不会被加载。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在pom.xml中加入一个插件，如下：</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;!-- 下面这一行即为自动加载resources的配资--&gt;
+        &lt;addResources&gt;true&lt;/addResources&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;repackage&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>接下来要在命令行中输入<code>mvn spring-boot:run</code>来启动应用，否则依然无法自动加载resources文件</p>
+<h2 id="Spring-boot-maven-plugin"><a href="#Spring-boot-maven-plugin" class="headerlink" title="Spring boot maven plugin"></a>Spring boot maven plugin</h2><p>甩出<a href="https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/maven-plugin/" target="_blank" rel="noopener">Spring Boot Maven Plugin</a>的官方网站</p>
+<p>这是一款Spring开发的用于在maven中提供Spring boot支持的插件</p>
+<ul>
+<li>spring-boot:run 运行spring-boot应用</li>
+<li>spring-boot:repackage 重新打包可执行的jar/war包</li>
+<li>spring-boot:start/stop 一般用来执行测试（集成）</li>
+<li>spring-boot:build-info 生成构建信息</li>
+</ul>
+<p>如果需要额外的配置需求，请直接查询官网</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>由于我的项目是分module构建的，在使用spring-boot maven plugin时，出现一个error：</p>
+<pre><code>Unable to find a suitable main class, please add a &apos;mainClass&apos; property 
+</code></pre><p>Google之后发现，spring-boot maven plugin要求有启动的main Class，可以在pom.xml文件中配置：</p>
+<ol>
+<li>如果pom.xml是继承自spring-boot-starter-parent，可以在properties元素中加入<code>&lt;main-class&gt;xxx&lt;/main-class&gt;</code></li>
+<li>如果pom.xml不是继承自spring-boot-starter-parent，那么可以在插件的<configuration>属性中加入<mainclass>属性来指定</mainclass></configuration></li>
+<li>当然，即使不设定mainClass属性，插件也会自动搜索项目中包含有<code>public void main(String[] args)</code>的类来作为启动类</li>
+</ol>
+<p>那么照理来说，spring-boot插件应该会自动找到我的启动类来启动，anyway，我又主动配置了一下<main-class>属性，没想到这回又出现了这个错误：</main-class></p>
+<pre><code>Unable to find a suitable main class, please add a &apos;mainClass&apos; property
+</code></pre><p>然后又开始Google、Google、Google……</p>
+<p>最终找到了解决方法：</p>
+<blockquote>
+<p>首先将父pom.xml中的spring-boot plugin配置为：</p>
+</blockquote>
+<pre><code>&lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;skip&gt;true&lt;/skip&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre><blockquote>
+<p>然后在包含有主启动类的module pom.xml中，加入：</p>
+</blockquote>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+      &lt;fork&gt;true&lt;/fork&gt;
+      &lt;skip&gt;false&lt;/skip&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+      &lt;execution&gt;
+        &lt;goals&gt;
+          &lt;goal&gt;repackage&lt;/goal&gt;
+        &lt;/goals&gt;
+      &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>这时候再使用<code>mvn spring-boot:run</code>就可以启动应用了</p>
 <hr>
       
     </div>
@@ -411,11 +468,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/取余/" rel="tag"># 取余</a>
-          
-            <a href="/tags/哈希/" rel="tag"># 哈希</a>
-          
-            <a href="/tags/HashMap/" rel="tag"># HashMap</a>
+            <a href="/tags/Springboot/" rel="tag"># Springboot</a>
           
         </div>
       
@@ -428,8 +481,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/配置MySQL允许外网访问/" rel="next" title="配置MySQL允许外网访问">
-                <i class="fa fa-chevron-left"></i> 配置MySQL允许外网访问
+              <a href="/java8_basic_introduce.html" rel="next" title="Java8新特性简单介绍">
+                <i class="fa fa-chevron-left"></i> Java8新特性简单介绍
               </a>
             
           </div>
@@ -437,10 +490,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/OSX安装MySQL/" rel="prev" title="Mac OSX 安装MySQL">
-                Mac OSX 安装MySQL <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -602,7 +651,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于位与运算-amp-与取余"><span class="nav-number">1.</span> <span class="nav-text">关于位与运算&amp;与取余</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结一下"><span class="nav-number">2.</span> <span class="nav-text">总结一下</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-boot-maven-plugin"><span class="nav-number">3.</span> <span class="nav-text">Spring boot maven plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">4.</span> <span class="nav-text">遇到的问题</span></a></li></ol></div>
             
 
           </div>
@@ -763,9 +812,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://xaiverqwb.github.io/位与运算，与取余/';
-          this.page.identifier = '位与运算，与取余/';
-          this.page.title = '位与运算，与取余';
+          this.page.url = 'http://xaiverqwb.github.io/resource_hot_load_in_spring.html';
+          this.page.identifier = 'resource_hot_load_in_spring.html';
+          this.page.title = 'Springboot资源热加载';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavier.disqus.com/embed.js';

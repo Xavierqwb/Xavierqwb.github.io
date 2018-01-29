@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -84,17 +84,18 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://xaiverqwb.github.io/hello-world/index.html">
+<meta property="og:title" content="配置MySQL允许外网访问">
+<meta property="og:url" content="http://xaiverqwb.github.io/allow_mysql_visit_outside.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-28T06:07:21.290Z">
+<meta property="og:updated_time" content="2018-01-29T10:06:40.566Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="配置MySQL允许外网访问">
+<meta name="twitter:description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
 
 
 
@@ -124,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://xaiverqwb.github.io/hello-world/"/>
+  <link rel="canonical" href="http://xaiverqwb.github.io/allow_mysql_visit_outside.html"/>
 
 
 
 
 
-  <title>Hello World | Xavier's Blog</title>
+  <title>配置MySQL允许外网访问 | Xavier's Blog</title>
   
 
 
@@ -257,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/allow_mysql_visit_outside.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
@@ -274,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">配置MySQL允许外网访问</h1>
         
 
         <div class="post-meta">
@@ -286,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T14:07:21+08:00">
-                2018/01/28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-31T05:09:20+08:00">
+                2017/03/30
               </time>
             
 
@@ -297,6 +298,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维技术/" itemprop="url" rel="index">
+                    <span itemprop="name">运维技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -305,9 +328,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/hello-world/#comments" itemprop="discussionUrl">
+                <a href="/allow_mysql_visit_outside.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="hello-world/" itemprop="commentCount"></span>
+                        data-disqus-identifier="allow_mysql_visit_outside.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -315,7 +338,7 @@
 
           
           
-             <span id="/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+             <span id="/allow_mysql_visit_outside.html" class="leancloud_visitors" data-flag-title="配置MySQL允许外网访问">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -332,6 +355,10 @@
           
 
           
+              <div class="post-description">
+                  当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？
+              </div>
+          
 
         </div>
       </header>
@@ -346,16 +373,31 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h2 id="修改MySQL的配置文件"><a href="#修改MySQL的配置文件" class="headerlink" title="修改MySQL的配置文件"></a>修改MySQL的配置文件</h2><pre><code>/etc/mysql/my.cnf
+</code></pre><p>找到一句<code>bind-address=127.0.0.1</code>将其注释掉；       </p>
+<p>作用是使得不再只允许本地访问；</p>
+<p>然后重启mysql：<code>/etc/init.d/mysql restart;</code></p>
+<h2 id="设置MySQL中数据库的权限"><a href="#设置MySQL中数据库的权限" class="headerlink" title="设置MySQL中数据库的权限"></a>设置MySQL中数据库的权限</h2><p>登录数据库</p>
+<pre><code>mysql -u root -p
+// 输入密码
+use mysql;
+select user, host from user;
+</code></pre><p>若返回的数据中，没有对应<code>%</code>的host，需要进行设置，例如</p>
+<pre><code>mysql&gt; update user set host=&apos;%&apos; where user=&apos;root&apos;;
+mysql&gt; flush privileges;
+</code></pre><p>或者</p>
+<pre><code>mysql&gt;grand all privileges on  *.*  to &apos;root&apos;@&apos;%&apos;  identifies  by &apos;xxxx&apos;;
+</code></pre><p>其中，<code>*.*</code> 的意思是，第一个<code>*</code>表示数据库名；第二个<code>*</code>表示该数据库的表名；如果像上面那样<code>*.*</code>的话表示所有的数据库下的所有表都允许访问</p>
+<p><code>&#39;%&#39;</code>：表示允许访问到mysql的ip地址；当然你也可以配置为具体到ip名称；%表示所有ip均可以访问；</p>
+<p>后面的<code>&#39;xxxx&#39;</code>为root 用户的password；</p>
+<p>例如：<br>任意主机以用户root和密码mypwd连接到mysql服务器</p>
+<pre><code>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypwd&apos; WITH GRANT OPTION;
+mysql&gt; flush privileges;
+</code></pre><p>IP为192.168.1.102的主机以用户myuser和密码mypwd连接到mysql服务器</p>
+<pre><code>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;myuser&apos;@&apos;192.168.1.102&apos; IDENTIFIED BY &apos;mypwd&apos; WITH GRANT OPTION; 
+mysql&gt; flush privileges;
+</code></pre><hr>
       
     </div>
     
@@ -370,6 +412,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
 
       
       
@@ -379,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/OSX安装MySQL/" rel="next" title="Mac OSX 安装MySQL">
-                <i class="fa fa-chevron-left"></i> Mac OSX 安装MySQL
+              <a href="/java_file_write.html" rel="next" title="Java写文件">
+                <i class="fa fa-chevron-left"></i> Java写文件
               </a>
             
           </div>
@@ -389,8 +437,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Java8新特性简单介绍/" rel="prev" title="Java8新特性简单介绍">
-                Java8新特性简单介绍 <i class="fa fa-chevron-right"></i>
+              <a href="/bit_AND_with_mod.html" rel="prev" title="位与运算，与取余">
+                位与运算，与取余 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改MySQL的配置文件"><span class="nav-number">1.</span> <span class="nav-text">修改MySQL的配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置MySQL中数据库的权限"><span class="nav-number">2.</span> <span class="nav-text">设置MySQL中数据库的权限</span></a></li></ol></div>
             
 
           </div>
@@ -714,9 +762,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://xaiverqwb.github.io/hello-world/';
-          this.page.identifier = 'hello-world/';
-          this.page.title = 'Hello World';
+          this.page.url = 'http://xaiverqwb.github.io/allow_mysql_visit_outside.html';
+          this.page.identifier = 'allow_mysql_visit_outside.html';
+          this.page.title = '配置MySQL允许外网访问';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavier.disqus.com/embed.js';

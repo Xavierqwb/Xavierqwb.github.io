@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Python,http," />
+  <meta name="keywords" content="Executor," />
 
 
 
@@ -84,18 +84,18 @@
 
 
 
-<meta name="description" content="在Python中，发送http请求的简单教程">
-<meta name="keywords" content="Python,http">
+<meta name="description" content="在Java程序中调用外部系统的功能实现">
+<meta name="keywords" content="Executor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python发送http请求">
-<meta property="og:url" content="http://xaiverqwb.github.io/Python发送http请求/index.html">
+<meta property="og:title" content="Java调用外部程序">
+<meta property="og:url" content="http://xaiverqwb.github.io/java_invoke_system_procedure.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="在Python中，发送http请求的简单教程">
+<meta property="og:description" content="在Java程序中调用外部系统的功能实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T05:52:56.445Z">
+<meta property="og:updated_time" content="2018-01-29T10:09:40.632Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python发送http请求">
-<meta name="twitter:description" content="在Python中，发送http请求的简单教程">
+<meta name="twitter:title" content="Java调用外部程序">
+<meta name="twitter:description" content="在Java程序中调用外部系统的功能实现">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://xaiverqwb.github.io/Python发送http请求/"/>
+  <link rel="canonical" href="http://xaiverqwb.github.io/java_invoke_system_procedure.html"/>
 
 
 
 
 
-  <title>Python发送http请求 | Xavier's Blog</title>
+  <title>Java调用外部程序 | Xavier's Blog</title>
   
 
 
@@ -258,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/Python发送http请求/">
+    <link itemprop="mainEntityOfPage" href="http://xaiverqwb.github.io/java_invoke_system_procedure.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wenbin Qiu  邱稳斌">
@@ -275,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python发送http请求</h1>
+          <h1 class="post-title" itemprop="name headline">Java调用外部程序</h1>
         
 
         <div class="post-meta">
@@ -287,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T21:51:12+08:00">
-                2017/02/04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-07T21:37:39+08:00">
+                2017/03/07
               </time>
             
 
@@ -310,8 +310,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
                   </a>
                 </span>
 
@@ -328,9 +328,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/Python发送http请求/#comments" itemprop="discussionUrl">
+                <a href="/java_invoke_system_procedure.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="Python发送http请求/" itemprop="commentCount"></span>
+                        data-disqus-identifier="java_invoke_system_procedure.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -338,7 +338,7 @@
 
           
           
-             <span id="/Python发送http请求/" class="leancloud_visitors" data-flag-title="Python发送http请求">
+             <span id="/java_invoke_system_procedure.html" class="leancloud_visitors" data-flag-title="Java调用外部程序">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -356,7 +356,7 @@
 
           
               <div class="post-description">
-                  在Python中，发送http请求的简单教程
+                  在Java程序中调用外部系统的功能实现
               </div>
           
 
@@ -373,10 +373,11 @@
       
 
       
-        <p class="description"></p>
-
-<a id="more"></a>
-<h2 id="用urllib2发送http请求"><a href="#用urllib2发送http请求" class="headerlink" title="用urllib2发送http请求"></a>用urllib2发送http请求</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">apiUrl = <span class="string">'http://XXX.XXX'</span></span><br><span class="line">param1 = XXX</span><br><span class="line">param2 = XXX</span><br><span class="line">param3 = XXX</span><br><span class="line">params = &#123;<span class="string">'param1'</span>: param1, <span class="string">'param2'</span>: param2, <span class="string">'param3'</span>: param3&#125;</span><br><span class="line">jParams = json.dumps(params)</span><br><span class="line">headers = &#123;<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>&#125; <span class="comment"># 设置数据为json格式，很重要</span></span><br><span class="line">request = urllib2.Request(url=apiUrl, headers=headers, data=jParams)</span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"><span class="keyword">print</span> response.getcode() <span class="comment"># 请求状态，200为成功</span></span><br><span class="line"><span class="keyword">print</span> response.read() <span class="comment"># 返回的body</span></span><br></pre></td></tr></table></figure>
+        <p></p><p class="description"></p><br><a id="more"></a><p></p>
+<p>想在Java虚拟机调用外部程序，第一个想到的应是java.lang.runtime，然后利用runtime.exec方法得到process进程，但是这个方法有很多坑，例如不及时读取缓冲中的数据时，就会挂死</p>
+<p>后来发现了apache.commons.executor这个类，他在内部已经做好了足够的准备，至少不会发生挂死的情况</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.exec.CommandLine;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.exec.DefaultExecutor;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.exec.PumpStreamHandler;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//CommandLine command = CommandLine.parse("echo 123456789");  和下面的是一样的</span></span><br><span class="line">	</span><br><span class="line">	CommandLine command = <span class="keyword">new</span> CommandLine(<span class="string">"echo"</span>);</span><br><span class="line">	command.addArgument(<span class="string">"1234"</span>);</span><br><span class="line"></span><br><span class="line">	DefaultExecutor executor = <span class="keyword">new</span> DefaultExecutor();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果需要读取输出，则需要设置下列步骤</span></span><br><span class="line">	ByteArrayOutputStream outputStream = <span class="keyword">new</span> 	ByteArrayOutputStream();</span><br><span class="line">	PumpStreamHandler streamHandler = <span class="keyword">new</span> PumpStreamHandler(outputStream); </span><br><span class="line">	executor.setStreamHandler(streamHandler); </span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果需要在其他目录下工作，需要设置以下两步</span></span><br><span class="line">	File workingDirectory = <span class="keyword">new</span> File(<span class="string">"/home/user/"</span>)</span><br><span class="line">	executor.setWorkingDirectory(workingDirectory);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		executor.execute(commandLine);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	System.out.println(outputStream.toString());<span class="comment">// 读取输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 上述程序将会输出<code>1234</code>，值得注意的是，如果不设置streamHandler，程序会自动输出到console</p>
 <hr>
       
     </div>
@@ -394,9 +395,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-            <a href="/tags/http/" rel="tag"># http</a>
+            <a href="/tags/Executor/" rel="tag"># Executor</a>
           
         </div>
       
@@ -409,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Python解析properties脚本/" rel="next" title="Python解析properties脚本">
-                <i class="fa fa-chevron-left"></i> Python解析properties脚本
+              <a href="/json_in_python.html" rel="next" title="Python中json包的使用">
+                <i class="fa fa-chevron-left"></i> Python中json包的使用
               </a>
             
           </div>
@@ -419,8 +418,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/XML文档解析/" rel="prev" title="Python XML文档解析">
-                Python XML文档解析 <i class="fa fa-chevron-right"></i>
+              <a href="/java_file_write.html" rel="prev" title="Java写文件">
+                Java写文件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -483,17 +482,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -573,22 +563,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用urllib2发送http请求"><span class="nav-number">1.</span> <span class="nav-text">用urllib2发送http请求</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -744,9 +718,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://xaiverqwb.github.io/Python发送http请求/';
-          this.page.identifier = 'Python发送http请求/';
-          this.page.title = 'Python发送http请求';
+          this.page.url = 'http://xaiverqwb.github.io/java_invoke_system_procedure.html';
+          this.page.identifier = 'java_invoke_system_procedure.html';
+          this.page.title = 'Java调用外部程序';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavier.disqus.com/embed.js';
