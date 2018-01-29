@@ -93,7 +93,7 @@
 <meta property="og:description" content="当Spring项目启动的时候，会将src/main/resources目录下的所有资源文件加载入classpath，但是在项目启动之后加入到resources目录下的资源并不会被加载。可以通过简单的配置，使得Spring应用在运行时可以自动加载被添加到resources目录下的资源文件">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg">
-<meta property="og:updated_time" content="2018-01-29T11:36:30.081Z">
+<meta property="og:updated_time" content="2018-01-29T13:10:04.113Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Springboot资源热加载">
 <meta name="twitter:description" content="当Spring项目启动的时候，会将src/main/resources目录下的所有资源文件加载入classpath，但是在项目启动之后加入到resources目录下的资源并不会被加载。可以通过简单的配置，使得Spring应用在运行时可以自动加载被添加到resources目录下的资源文件">
@@ -451,6 +451,7 @@
     &lt;configuration&gt;
       &lt;fork&gt;true&lt;/fork&gt;
       &lt;skip&gt;false&lt;/skip&gt;
+      &lt;addResources&gt;true&lt;/addResources&gt;
     &lt;/configuration&gt;
     &lt;executions&gt;
       &lt;execution&gt;
