@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[Springboot资源热加载]]></title>
+      <url>/resource_hot_load_in_spring.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg" alt="" style="width:50%"><br><a id="more"></a><p></p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>在做一个内容销售系统的时候，遇到一个问题：</p>
+<pre><code>在将商品摆上货架时，如果使用的图片是通过文件上传的形式发送到后端，后端将其保存到resources目录中，在使用服务端本地的资源显示该图片时，会出现加载不出来的情况，只有当服务器重新启动，才能看到这些图片。
+</code></pre><p>在自己实验、Google、百度了一通之后，得出一个结论，就是Spring默认会在应用启动时加载resources中的资源，一旦应用启动，之后放入resources中的资源将不会被加载。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在pom.xml中加入一个插件，如下：</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;!-- 下面这一行即为自动加载resources的配资--&gt;
+        &lt;addResources&gt;true&lt;/addResources&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;repackage&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>接下来要在命令行中输入<code>mvn spring-boot:run</code>来启动应用，否则依然无法自动加载resources文件</p>
+<h2 id="Spring-boot-maven-plugin"><a href="#Spring-boot-maven-plugin" class="headerlink" title="Spring boot maven plugin"></a>Spring boot maven plugin</h2><p>甩出<a href="https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/maven-plugin/" target="_blank" rel="noopener">Spring Boot Maven Plugin</a>的官方网站</p>
+<p>这是一款Spring开发的用于在maven中提供Spring boot支持的插件</p>
+<ul>
+<li>spring-boot:run 运行spring-boot应用</li>
+<li>spring-boot:repackage 重新打包可执行的jar/war包</li>
+<li>spring-boot:start/stop 一般用来执行测试（集成）</li>
+<li>spring-boot:build-info 生成构建信息</li>
+</ul>
+<p>如果需要额外的配置需求，请直接查询官网</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>由于我的项目是分module构建的，在使用spring-boot maven plugin时，出现一个error：</p>
+<pre><code>Unable to find a suitable main class, please add a &apos;mainClass&apos; property 
+</code></pre><p>Google之后发现，spring-boot maven plugin要求有启动的main Class，可以在pom.xml文件中配置：</p>
+<ol>
+<li>如果pom.xml是继承自spring-boot-starter-parent，可以在properties元素中加入<code>&lt;main-class&gt;xxx&lt;/main-class&gt;</code></li>
+<li>如果pom.xml不是继承自spring-boot-starter-parent，那么可以在插件的<configuration>属性中加入<mainclass>属性来指定</mainclass></configuration></li>
+<li>当然，即使不设定mainClass属性，插件也会自动搜索项目中包含有<code>public void main(String[] args)</code>的类来作为启动类</li>
+</ol>
+<p>那么照理来说，spring-boot插件应该会自动找到我的启动类来启动，anyway，我又主动配置了一下<main-class>属性，没想到这回又出现了这个错误：</main-class></p>
+<pre><code>Unable to find a suitable main class, please add a &apos;mainClass&apos; property
+</code></pre><p>然后又开始Google、Google、Google……</p>
+<p>最终找到了解决方法：</p>
+<blockquote>
+<p>首先将父pom.xml中的spring-boot plugin配置为：</p>
+</blockquote>
+<pre><code>&lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;skip&gt;true&lt;/skip&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre><blockquote>
+<p>然后在包含有主启动类的module pom.xml中，加入：</p>
+</blockquote>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+      &lt;fork&gt;true&lt;/fork&gt;
+      &lt;skip&gt;false&lt;/skip&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+      &lt;execution&gt;
+        &lt;goals&gt;
+          &lt;goal&gt;repackage&lt;/goal&gt;
+        &lt;/goals&gt;
+      &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>这时候再使用<code>mvn spring-boot:run</code>就可以启动应用了</p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Spring </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Springboot </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java8新特性简单介绍]]></title>
+      <url>/java8_basic_introduce.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h2 id="Lambda匿名函数表达式"><a href="#Lambda匿名函数表达式" class="headerlink" title="Lambda匿名函数表达式"></a>Lambda匿名函数表达式</h2><ul>
+<li>最主要的特点：可以将函数作为参数传入方法</li>
+<li><p>实际上，Lambda表达式主要用于实现接口（只有一个待实现方法的接口），比如<code>Runnable</code>接口，内部只有<code>run()</code>方法待实现，那么就可以用Lambda表达式实现<code>Runnable</code>接口：<br>  <code>Runnable run = () -&gt; System.out.println(&quot;run&quot;)</code><br>  <code>Thread t = new Thread(() -&gt;System.out.println(&quot;run&quot;))</code><br>  的方式来实现Thread，而不是古老的显式Override的方式。</p>
+</li>
+<li><p>Lambda可以利用编译器做很多自动推理的工作，例如传参、返回值、类型等信息都可以通过编译器自动推理得出，所以在编写的时候可以省略很多东西。例如：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="number">4</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">list.sort(((a, b) -&gt; a - b));</span><br></pre></td></tr></table></figure>
+<p>上例中，实际是用<code>(a, b) -&gt; a - b</code>实现了Comparator接口，编译器自动推理出了a和b的类型，以及实现接口的类型，以及省略了return</p>
+<h2 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h2><p>方法引用，可以理解为Lambda的一种简化版，用法是class::method或object::method，方法引用可以分为4类</p>
+<ul>
+<li>引用静态方法，ClassName::staticMethod，例如：String::valueOf，对应的Lambda就是(s) -&gt; String.valueOf(s)</li>
+<li>引用对象实例的方法，object::method，例如：”a”.toString，对应的Lambda就是 () -&gt; this.toString()</li>
+<li>引用特定类型的任意对象的方法，Class::method，例如：String::toString，对应的Lambda就是 (s) -&gt; s.toString</li>
+<li>引用构造函数，Class::new，例如：String::new，对应的Lambda是() -&gt; new String()</li>
+</ul>
+<h3 id="方法引用示例"><a href="#方法引用示例" class="headerlink" title="方法引用示例"></a>方法引用示例</h3><p>假设有个接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">Inter</span> </span>&#123;</span><br><span class="line">                      </span><br><span class="line">    <span class="function">String <span class="title">test</span><span class="params">(String a)</span></span>; </span><br><span class="line">    <span class="comment">// 引用对象实例的方法时，去掉String </span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>静态方法引用：<code>Inter inter = String::valueOf;</code>  等效于：<code>inter inter = (a) -&gt; String.valueOf(a);</code></p>
+<p>引用特定类型的任意对象方法：<code>inter inter = String::toString;</code> 等效：<code>inter inter = (a) -&gt; a.toString;</code></p>
+<p>引用对象实例的方法：<code>inter inter = “test”::toString</code>; 等效：<code>inter inter = () -&gt; “test”.toString;</code></p>
+<p>引用构造方法：<code>inter inter = String::new</code>; 等效：<code>inter inter = (a) -&gt; new String(a);</code></p>
+<p>个人认为，先理解了Lambda，再用Lambda来理解方法引用，会更加容易理解</p>
+<h2 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h2><p>根据上述描述可知，Lambda表达式以及方法引用，实际上都是为了实现接口的，而能被实现的接口都有一个共同点，就是只有一个待实现方法。在Java8中，这种接口被统一称为函数式接口。</p>
+<p>在Java8之前，其实就存在了很多这样的接口，比如Runnable、Comparator、InvocationHandler等，在JDK1.8中还加入了java.util.function包，内含有大量的函数式接口可供使用，而Java已经给JDK中所有的函数式接口都加上了@FunctionalInterface接口，来标注这是一个函数式接口</p>
+<h2 id="默认方法"><a href="#默认方法" class="headerlink" title="默认方法"></a>默认方法</h2><p>Java8中，为每个接口提供了一种可以实现默认方法的机制，定义方法时，在前面加上default就可以了，之后实现这个接口的类都会继承这个默认方法（除非重写了此方法）</p>
+<p>另外，还提供了一种静态默认方法，即每个接口都可以实现一个静态方法，之后就可以像类一样，通过接口名直接调用该方法。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Inter</span> </span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">test</span><span class="params">(String a)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"Default"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Static"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h2><p>流是一种新的对象，是Java8的新特性之一</p>
+<p>对流的操作可以简化为<code>产生流对象-&gt;对流进行操作-&gt;收集流对象</code>的流程</p>
+<h3 id="产生流对象"><a href="#产生流对象" class="headerlink" title="产生流对象"></a>产生流对象</h3><p>可以通过Stream的静态方法、Collection的stream()、parallelStream()方法、Arrays.stream(数组)等方式产生一个流对象</p>
+<h3 id="对流进行操作"><a href="#对流进行操作" class="headerlink" title="对流进行操作"></a>对流进行操作</h3><ul>
+<li>filter：设置过滤条件，会返回流，如：stream.filter(a -&gt; a % 2 == 0)</li>
+<li>forEach： 迭代流中的每个元素进行操作，如：stream.forEach(System.out::println)</li>
+<li>map：对每一个元素做映射，会返回一个流，如：stream.map(i -&gt; i + 1)</li>
+<li>limit：截取流的一部分，返回流对象，如：stream.limit(2)</li>
+<li>sort：对流进行排序，返回流对象，可以带入Comparator自定义排序方式，如：stream.sorted((a, b) -&gt; b-a).forEach(System.out::println)，这是将流逆序排序后输出</li>
+<li>等等等….</li>
+</ul>
+<h3 id="重新收集流对象"><a href="#重新收集流对象" class="headerlink" title="重新收集流对象"></a>重新收集流对象</h3><p>收集是为了将流转换回正常POJO对象</p>
+<ul>
+<li>count：顾名思义，即返回流中对象的数量</li>
+<li>collect：<strong>特别重要</strong>，多数流对象是由集合转换来的，所以最后多数也要转换回集合类型，即可以用collect将流中的对象收集并转换为集合。如：stream.collect(Collectors.toList)、stream.collect(Collectors.toSet)、stream.collect(Collectors.toMap(i -&gt; i, i -&gt; i * i))……，在Collectors类中有很多静态方式可供使用</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Stream&lt;Integer&gt; stream = Stream.of(<span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">0</span>); <span class="comment">// 生成流对象</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 逆序排序后截取前5个并返回列表</span></span><br><span class="line">    List&lt;Integer&gt; list = stream.sorted((a, b) -&gt; b - a).limit(<span class="number">5</span>).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 过滤出所有奇数，并以自己为key，平方为value存入map中</span></span><br><span class="line">    Map&lt;Integer, Integer&gt; map = stream.filter((x) -&gt; x % <span class="number">2</span> == <span class="number">1</span>).collect(Collectors.toMap((i) -&gt; i, (i) -&gt; i * i));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回流中对象的个数</span></span><br><span class="line">    Long count = stream.count();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h2><p>Java8引入了Optional类主要是为了解决null</p>
+<p>Optional对象的生成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 不能放入null</span></span><br><span class="line">Optional&lt;String&gt; optional = Optional.of(<span class="string">"optional"</span>);</span><br><span class="line"><span class="comment">// 可以放入null</span></span><br><span class="line">optional = Optional.ofNullable(<span class="keyword">null</span>);</span><br><span class="line"><span class="comment">// 只能是null</span></span><br><span class="line">optional = Optional.empty;</span><br></pre></td></tr></table></figure>
+<p>Optional对象的操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">optional.get(); <span class="comment">// 如果非null则返回对象，如果是null则抛出NoSuchElementException异常</span></span><br><span class="line">optional.isPresent(); <span class="comment">//如果非null返回true，是null则返回false</span></span><br><span class="line"><span class="comment">// 下面两句的效果是一样的</span></span><br><span class="line">optional.ifPresent(System.out::println); </span><br><span class="line"><span class="keyword">if</span>(optional.isPresent()) &#123;</span><br><span class="line">    System.out.println(optional.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">optional.orElse(<span class="string">""</span>); <span class="comment">//如果为null则返回传入的对象，否则返回内部的对象</span></span><br><span class="line"></span><br><span class="line">optional.orElseGet(String::<span class="keyword">new</span>); <span class="comment">//如果为null则返回supplier.get, supplier则为传入的接口</span></span><br><span class="line"></span><br><span class="line">optional.orElseThrow(exceptionSupplier); <span class="comment">//如果为null则抛出exceptionSupplier.get，这是一个异常生成的接口</span></span><br><span class="line"></span><br><span class="line">optional = optional.map((s) -&gt; s + <span class="string">"!"</span>); <span class="comment">//如果不为null，则对内部的对象做一个映射并返回Optional对象，如果为null则返回空Optional对象</span></span><br><span class="line"></span><br><span class="line">optional = optional.flatMap((s) -&gt; Optional.of(s + <span class="string">"!"</span>)); <span class="comment">//和map不同的一点是，flatMap传入的接口必须返回Optional对象，而map会自动封装</span></span><br><span class="line"></span><br><span class="line">optional = optional.filter((s) -&gt; s.length() &gt; <span class="number">6</span>);<span class="comment">// 有点像Stream的filter函数，但是不同的是，Stream中包含了大量元素，因此多数时候会有剩下的，但是Optional的filter更像是断言，true则原样返回，false则返回空Optional对象</span></span><br></pre></td></tr></table></figure>
+<h2 id="其他特性"><a href="#其他特性" class="headerlink" title="其他特性"></a>其他特性</h2><p>Nashorn, JavaScript 引擎<br>新的日期API，不需要使用Date+Calendar对日期操作<br>Java8内置了Base64的编码器和解码器</p>
+<p>不再一一赘述</p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Java基础 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Java8 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>/undefined.html</url>
+      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mac OSX 安装MySQL]]></title>
+      <url>/MySQL_install_Mac.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h3 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h3><p>到MySQL官方主页直接下载，<a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/mysql/</a> ，我下载的第一个.dmg文件</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>直接默认安装就好了，安装完之后会弹出一个初始密码，要先记下来，待会儿会用到。另外安装完以后要在系统偏好设置中，启动MySQL服务，否则是打不开MySQL的</p>
+<p><img src="http://img.blog.csdn.net/20170516112009157?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGF2aWVycXdi/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="系统偏好设置"><br><img src="http://img.blog.csdn.net/20170516112057516?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGF2aWVycXdi/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="MySQL prefPane"></p>
+<h3 id="配置MySQL"><a href="#配置MySQL" class="headerlink" title="配置MySQL"></a>配置MySQL</h3><p>接下来</p>
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>在终端中输入 vim /etc/bashrc<br>在末尾加入两句：</p>
+<pre><code>alias mysql=&apos;/usr/local/mysql/bin/mysql&apos;
+alias mysqladmin=&apos;/usr/local/mysql/bin/mysqladmin&apos;
+</code></pre><p>重启终端，就可以在终端中输入mysql指令来打开MySQL了；</p>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>修改环境变量，在终端中输入<code>vim ~/.bash_profile</code><br>在文件中加入：</p>
+<pre><code>PATH=$PATH:/usr/local/mysql/bin
+</code></pre><p>保存关闭之后，输入<code>source ~/.bash_profile</code>，更新环境变量</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>第一次打开MySQL（<code>mysql -u root -p</code>)，啥指令也做不了，因为它会要求你修改默认密码，还必须用alter user指令<br>打开进入MySQL界面后，输入</p>
+<pre><code>alter user user() identified by &apos;New Password&apos;;
+</code></pre><p>就可以更改默认的密码，之后就可以尽情享用MySQL了！</p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> 计算机软件 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mac </tag>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[位与运算，与取余]]></title>
+      <url>/bit_AND_with_mod.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h3 id="关于位与运算-amp-与取余"><a href="#关于位与运算-amp-与取余" class="headerlink" title="关于位与运算&amp;与取余"></a>关于位与运算&amp;与取余</h3><p>今天在研究hashmap源码的时候，发现其源码中在解决Entry分布时，本来大多数人以为会用<code>index = hash % length</code>，但是源码中却使用了<code>index = hash &amp; (lenth -1)</code>的方式。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="bullet">* </span>The default initial capacity - MUST be </span>a<span class="markdown"> power of two.</span></span></span><br><span class="line"><span class="comment"><span class="markdown">*/</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br></pre></td></tr></table></figure>
+<p>另外由上述还可以注意到，在源码中对于Entry数组容量的定义中，要求容量必须为2的n次幂（或0），于是就搜索查询了一下用意。</p>
+<p>原来位与也是可以用来取余的，但是有一个条件：除数必须是2的n次幂才行。举例子来说明：</p>
+<pre><code>9%8=1
+ 1001 &amp; （1000 - 1）
+=1001 &amp; 0111
+=1 // 1001是9的二进制表示，1000是8的二进制表示
+</code></pre><p>其实很明显了，在二进制计算中，众所周知的是，一个数右移1位相当于除以2的商，而恰巧被移除出去的那一位就是除以2得到的余数，例如：</p>
+<pre><code> 9 &gt;&gt; 1
+=1001 &gt;&gt; 1
+=100 | 1
+=4 余 1
+</code></pre><p>而且，不仅是除以2，对于一个数k要除以2的n次方，也就是相当于把k向右移n位，而被移出去的n位即正好是我们要求是余数。</p>
+<p>那么问题就简单了，实际上，对于除数是2的n次方的算式，我们只需要得到被除数的低n位就可以了，而正好，对于2的n次方这样的数，我们将其转换为二进制之后，它就是第n+1位为1，其余低位都为0的数，因此我们将其减1，就得到了第n+1位为0，而其他位都为1的数，用此数与被除数k进行位与运算，就得到了被除数的低n位二进制数，也即是取余的结果。</p>
+<h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3><p>若一个数m满足：</p>
+<p><img src="http://latex.codecogs.com/gif.latex?m=2^{n}" alt="示例"></p>
+<p>那么<code>k % m = k &amp; (m-1)</code></p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Java基础 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 取余 </tag>
+            
+            <tag> 哈希 </tag>
+            
+            <tag> HashMap </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[配置MySQL允许外网访问]]></title>
+      <url>/allow_mysql_visit_outside.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h2 id="修改MySQL的配置文件"><a href="#修改MySQL的配置文件" class="headerlink" title="修改MySQL的配置文件"></a>修改MySQL的配置文件</h2><pre><code>/etc/mysql/my.cnf
+</code></pre><p>找到一句<code>bind-address=127.0.0.1</code>将其注释掉；       </p>
+<p>作用是使得不再只允许本地访问；</p>
+<p>然后重启mysql：<code>/etc/init.d/mysql restart;</code></p>
+<h2 id="设置MySQL中数据库的权限"><a href="#设置MySQL中数据库的权限" class="headerlink" title="设置MySQL中数据库的权限"></a>设置MySQL中数据库的权限</h2><p>登录数据库</p>
+<pre><code>mysql -u root -p
+// 输入密码
+use mysql;
+select user, host from user;
+</code></pre><p>若返回的数据中，没有对应<code>%</code>的host，需要进行设置，例如</p>
+<pre><code>mysql&gt; update user set host=&apos;%&apos; where user=&apos;root&apos;;
+mysql&gt; flush privileges;
+</code></pre><p>或者</p>
+<pre><code>mysql&gt;grand all privileges on  *.*  to &apos;root&apos;@&apos;%&apos;  identifies  by &apos;xxxx&apos;;
+</code></pre><p>其中，<code>*.*</code> 的意思是，第一个<code>*</code>表示数据库名；第二个<code>*</code>表示该数据库的表名；如果像上面那样<code>*.*</code>的话表示所有的数据库下的所有表都允许访问</p>
+<p><code>&#39;%&#39;</code>：表示允许访问到mysql的ip地址；当然你也可以配置为具体到ip名称；%表示所有ip均可以访问；</p>
+<p>后面的<code>&#39;xxxx&#39;</code>为root 用户的password；</p>
+<p>例如：<br>任意主机以用户root和密码mypwd连接到mysql服务器</p>
+<pre><code>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypwd&apos; WITH GRANT OPTION;
+mysql&gt; flush privileges;
+</code></pre><p>IP为192.168.1.102的主机以用户myuser和密码mypwd连接到mysql服务器</p>
+<pre><code>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &apos;myuser&apos;@&apos;192.168.1.102&apos; IDENTIFIED BY &apos;mypwd&apos; WITH GRANT OPTION; 
+mysql&gt; flush privileges;
+</code></pre><hr>]]></content>
+      
+        <categories>
+            
+            <category> 运维技术 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java写文件]]></title>
+      <url>/java_file_write.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><a id="more"></a><p></p>
+<p>Java写文件有三种常用的方式，分别是用FileOutputStream、BufferedOutputStream和FileWriter</p>
+<p>其中，FileWriter的执行速度最快，BufferedOutputStream次之，FileOutputStream最慢</p>
+<p>三种方法的实现方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FileOutputStream fileOutputStream = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"..."</span>));</span><br><span class="line">	fileOutputStream.write(<span class="string">"xavier"</span>.getByte());</span><br><span class="line">	fileOutputStream.close();</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">	pass;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (fileOutputStream != <span class="keyword">null</span>)</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			fileOutputStream.close();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">FileOutputStream fileOutputStream = <span class="keyword">null</span>;</span><br><span class="line">BufferedOutputStream bufferedOutputStream = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"..."</span>));</span><br><span class="line">	bufferedOutputStream = <span class="keyword">new</span> BufferedOutputStream(fileOutputStream);</span><br><span class="line">	bufferedOutputStream .write(<span class="string">"xavier"</span>.getByte());</span><br><span class="line">	bufferedOutputStream.flush();</span><br><span class="line">	fileOutputStream.close();</span><br><span class="line">	bufferedOutputStream.close;</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">	pass;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (fileOutputStream != <span class="keyword">null</span>)</span><br><span class="line">			fileOutputStream.close();</span><br><span class="line">		<span class="keyword">if</span> (bufferedOutputStream!= <span class="keyword">null</span>)</span><br><span class="line">			bufferedOutputStream.close();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e)&#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FileWriter fileWriter = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	fileWriter = <span class="keyword">new</span> FileWriter (<span class="keyword">new</span> File(<span class="string">"..."</span>));</span><br><span class="line">	fileWriter.write(<span class="string">"xavier"</span>);</span><br><span class="line">	fileWriter .close();</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">	pass;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (fileWriter != <span class="keyword">null</span>)</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			fileWriter .close();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上述，三种方法，论性价比而言，肯定是FileWriter最好用，不仅速度快，而且写起来也方便，更加不需要将String类型转换为Byte进行传入</p>
+<p>但是FileWriter有一个缺点，他会使用系统默认的编码方式进行文件写入，而我们无法更改；而当我们使用FileOutputStream或BufferedOutputStream时，当转换String为Byte类型时，可以使用String.getByte(charsetName)方法转换编码方式。</p>
+<p>最容易出bug的就是在Windows下使用FileWriter，写入文件时保存的GBK编码，而很多时候，GBK编码会出现乱码，所以最好的解决方案是用BufferedOutputStream，在将String转换为Byte时使用getByte(“utf-8”)，这样子不仅不会出现乱码的问题，写入的速度也不会比FileWriter慢多少。</p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Java基础 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> IO </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java调用外部程序]]></title>
+      <url>/java_invoke_system_procedure.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><a id="more"></a><p></p>
+<p>想在Java虚拟机调用外部程序，第一个想到的应是java.lang.runtime，然后利用runtime.exec方法得到process进程，但是这个方法有很多坑，例如不及时读取缓冲中的数据时，就会挂死</p>
+<p>后来发现了apache.commons.executor这个类，他在内部已经做好了足够的准备，至少不会发生挂死的情况</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.exec.CommandLine;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.exec.DefaultExecutor;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.exec.PumpStreamHandler;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//CommandLine command = CommandLine.parse("echo 123456789");  和下面的是一样的</span></span><br><span class="line">	</span><br><span class="line">	CommandLine command = <span class="keyword">new</span> CommandLine(<span class="string">"echo"</span>);</span><br><span class="line">	command.addArgument(<span class="string">"1234"</span>);</span><br><span class="line"></span><br><span class="line">	DefaultExecutor executor = <span class="keyword">new</span> DefaultExecutor();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果需要读取输出，则需要设置下列步骤</span></span><br><span class="line">	ByteArrayOutputStream outputStream = <span class="keyword">new</span> 	ByteArrayOutputStream();</span><br><span class="line">	PumpStreamHandler streamHandler = <span class="keyword">new</span> PumpStreamHandler(outputStream); </span><br><span class="line">	executor.setStreamHandler(streamHandler); </span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果需要在其他目录下工作，需要设置以下两步</span></span><br><span class="line">	File workingDirectory = <span class="keyword">new</span> File(<span class="string">"/home/user/"</span>)</span><br><span class="line">	executor.setWorkingDirectory(workingDirectory);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		executor.execute(commandLine);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	System.out.println(outputStream.toString());<span class="comment">// 读取输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 上述程序将会输出<code>1234</code>，值得注意的是，如果不设置streamHandler，程序会自动输出到console</p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Java基础 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Executor </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python中json包的使用]]></title>
+      <url>/json_in_python.html</url>
+      <content type="html"><![CDATA[<p class="description"></p>
+
+<a id="more"></a>
+<h2 id="首先贴上官方文档"><a href="#首先贴上官方文档" class="headerlink" title="首先贴上官方文档"></a>首先贴上官方文档</h2><p><a href="https://docs.python.org/2/library/json.html?highlight=json#module-json" target="_blank" rel="noopener">https://docs.python.org/2/library/json.html?highlight=json#module-json</a></p>
+<h3 id="导入json包"><a href="#导入json包" class="headerlink" title="导入json包"></a>导入json包</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+<h3 id="函数的使用"><a href="#函数的使用" class="headerlink" title="函数的使用"></a>函数的使用</h3><h4 id="json-dumps"><a href="#json-dumps" class="headerlink" title="json.dumps"></a>json.dumps</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dictData = &#123;<span class="string">'a'</span>:<span class="number">1</span>, <span class="string">'b'</span>:<span class="number">2</span>&#125;</span><br><span class="line">jsonData = json.dumps(dictData)  <span class="comment"># dumps将数据对象转变为json格式</span></span><br><span class="line"><span class="keyword">print</span> jsonData</span><br></pre></td></tr></table></figure>
+<pre><code>{&quot;a&quot;: 1, &quot;b&quot;: 2}
+</code></pre><p>####json.loads</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> json.loads(jsonData)  <span class="comment"># 与dumps相反，将json对象转变为字典对象返回</span></span><br></pre></td></tr></table></figure>
+<pre><code>{u&apos;a&apos;: 1, u&apos;b&apos;: 2}
+</code></pre><p>####json.dump</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'test.json'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	json.dump(dictData, f)  <span class="comment"># 将对象转变为json格式并存入文件中</span></span><br></pre></td></tr></table></figure>
+<p>####json.load</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'test.json'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">print</span> json.load(f)  <span class="comment"># 将json文件转变为字典返回</span></span><br></pre></td></tr></table></figure>
+<pre><code>{u&apos;a&apos;: 1, u&apos;b&apos;: 2}
+</code></pre><hr>]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> json </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python XML文档解析]]></title>
+      <url>/xml_parse_in_python.html</url>
+      <content type="html"><![CDATA[<p class="description"></p>
+
+<a id="more"></a>
+<p>在配置Jenkins的jobs的时候，需要用到对XML文件的操作，因此在网上找了一些方法，总结一下：</p>
+<h2 id="xml-xtree-Element库"><a href="#xml-xtree-Element库" class="headerlink" title="xml.xtree.Element库"></a>xml.xtree.Element库</h2><p>需要引入以下几个包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xml.etree.ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="keyword">from</span> xml.etree.ElementTree <span class="keyword">import</span> ElementTree, Element</span><br></pre></td></tr></table></figure>
+<h3 id="读取XML文件到Python脚本中："><a href="#读取XML文件到Python脚本中：" class="headerlink" title="读取XML文件到Python脚本中："></a>读取XML文件到Python脚本中：</h3><h4 id="方法一：从文件中读取"><a href="#方法一：从文件中读取" class="headerlink" title="方法一：从文件中读取"></a>方法一：从文件中读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree = ElementTree()</span><br><span class="line">tree.parse(xmlPath)</span><br></pre></td></tr></table></figure>
+<h4 id="方法二：从字符串中读取"><a href="#方法二：从字符串中读取" class="headerlink" title="方法二：从字符串中读取"></a>方法二：从字符串中读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree = ET.fromstring(xmlString)</span><br></pre></td></tr></table></figure>
+<h3 id="寻找某个节点-nodeName或Path"><a href="#寻找某个节点-nodeName或Path" class="headerlink" title="寻找某个节点(nodeName或Path)"></a>寻找某个节点(nodeName或Path)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node = tree.find(tagNameOrPath) <span class="comment"># 可以通过tag name或者path寻找到第一个符合的节点，没有找到返回None</span></span><br></pre></td></tr></table></figure>
+<h3 id="增加-改变-删除节点的属性"><a href="#增加-改变-删除节点的属性" class="headerlink" title="增加/改变/删除节点的属性"></a>增加/改变/删除节点的属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.set(key, value) <span class="comment"># 增加或修改node下名称为key的属性，值为value</span></span><br><span class="line"><span class="keyword">del</span> node.attrib[key] <span class="comment"># 删除node下名称为key的属性</span></span><br></pre></td></tr></table></figure>
+<h3 id="对节点增加-改变-删除文本"><a href="#对节点增加-改变-删除文本" class="headerlink" title="对节点增加/改变/删除文本"></a>对节点增加/改变/删除文本</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">node.text += text <span class="comment"># 增加</span></span><br><span class="line">node.text = text <span class="comment"># 改变</span></span><br><span class="line">node.text = <span class="string">''</span> <span class="comment"># 删除</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">总之，对node.text进行操作就对了</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建一个新的节点"><a href="#创建一个新的节点" class="headerlink" title="创建一个新的节点"></a>创建一个新的节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element = Element(tag, propertyDict) <span class="comment"># tag是新节点的名称，propertyDict是新节点的属性字典</span></span><br><span class="line">element.text = text <span class="comment"># 新节点的文本内容</span></span><br></pre></td></tr></table></figure>
+<h3 id="在节点下加入-删除节点"><a href="#在节点下加入-删除节点" class="headerlink" title="在节点下加入/删除节点"></a>在节点下加入/删除节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.append(element) <span class="comment"># 加入多个节点时可以用extend(subelements)</span></span><br><span class="line">node.remove(element) <span class="comment"># 删除node下的element节点</span></span><br></pre></td></tr></table></figure>
+<p>更多细节，可以查看官方文档：</p>
+<p><a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml-tree-and-elements" target="_blank" rel="noopener">https://docs.python.org/2/library/xml.etree.elementtree.html#xml-tree-and-elements</a></p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> XML </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python发送http请求]]></title>
+      <url>/http_request_in_python.html</url>
+      <content type="html"><![CDATA[<p class="description"></p>
+
+<a id="more"></a>
+<h2 id="用urllib2发送http请求"><a href="#用urllib2发送http请求" class="headerlink" title="用urllib2发送http请求"></a>用urllib2发送http请求</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">apiUrl = <span class="string">'http://XXX.XXX'</span></span><br><span class="line">param1 = XXX</span><br><span class="line">param2 = XXX</span><br><span class="line">param3 = XXX</span><br><span class="line">params = &#123;<span class="string">'param1'</span>: param1, <span class="string">'param2'</span>: param2, <span class="string">'param3'</span>: param3&#125;</span><br><span class="line">jParams = json.dumps(params)</span><br><span class="line">headers = &#123;<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>&#125; <span class="comment"># 设置数据为json格式，很重要</span></span><br><span class="line">request = urllib2.Request(url=apiUrl, headers=headers, data=jParams)</span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"><span class="keyword">print</span> response.getcode() <span class="comment"># 请求状态，200为成功</span></span><br><span class="line"><span class="keyword">print</span> response.read() <span class="comment"># 返回的body</span></span><br></pre></td></tr></table></figure>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> http </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python解析properties脚本]]></title>
+      <url>/properties_parse_in_python.html</url>
+      <content type="html"><![CDATA[<p class="description"></p>
+
+<a id="more"></a>
+<p>在项目中遇到解析properties的情况，而Python中正好没有解析properties文件的现成模块，于是从网上找到了这个脚本，有一些小地方修改了一下</p>
+<h3 id="原博客：-Python读写properties文件"><a href="#原博客：-Python读写properties文件" class="headerlink" title="原博客：      Python读写properties文件"></a>原博客：      <a href="http://blog.csdn.net/cdecde111/article/details/51888702" target="_blank" rel="noopener">Python读写properties文件</a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Properties</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        self.file_name = file_name</span><br><span class="line">        self.properties = &#123;&#125;</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            fopen = open(self.file_name, <span class="string">'r'</span>)</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> fopen:</span><br><span class="line">                line = line.strip()</span><br><span class="line">                <span class="keyword">if</span> line.find(<span class="string">'='</span>) &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> line.startswith(<span class="string">'#'</span>):</span><br><span class="line">                    strs = line.split(<span class="string">'='</span>)</span><br><span class="line">                    self.properties[strs[<span class="number">0</span>].strip()] = strs[<span class="number">1</span>].strip()</span><br><span class="line">        <span class="keyword">except</span> Exception, e:</span><br><span class="line">            <span class="keyword">raise</span> e</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            fopen.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_key</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> key <span class="keyword">in</span> self.properties</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key, default_value=<span class="string">''</span>)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.properties:</span><br><span class="line">            <span class="keyword">return</span> self.properties[key]</span><br><span class="line">        <span class="keyword">return</span> default_value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        self.properties[key] = value</span><br><span class="line">        replace_property(self.file_name, key + <span class="string">'=.*'</span>, key + <span class="string">'='</span> + value, <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(file_name)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> Properties(file_name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">replace_property</span><span class="params">(file_name, from_regex, to_str, append_on_not_exists=True)</span>:</span></span><br><span class="line">    tmpfile = tempfile.TemporaryFile()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(file_name):</span><br><span class="line">        r_open = open(file_name, <span class="string">'r'</span>)</span><br><span class="line">        pattern = re.compile(<span class="string">r''</span> + from_regex)</span><br><span class="line">        found = <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> r_open:</span><br><span class="line">            <span class="keyword">if</span> pattern.search(line) <span class="keyword">and</span> <span class="keyword">not</span> line.strip().startswith(<span class="string">'#'</span>):</span><br><span class="line">                found = <span class="keyword">True</span></span><br><span class="line">                line = re.sub(from_regex, to_str, line)</span><br><span class="line">            tmpfile.write(line)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> found <span class="keyword">and</span> append_on_not_exists:</span><br><span class="line">            tmpfile.write(<span class="string">'\n'</span> + to_str)</span><br><span class="line">        r_open.close()</span><br><span class="line">        tmpfile.seek(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        content = tmpfile.read()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> os.path.exists(file_name):</span><br><span class="line">            os.remove(file_name)</span><br><span class="line"></span><br><span class="line">        w_open = open(file_name, <span class="string">'w'</span>)</span><br><span class="line">        w_open.write(content)</span><br><span class="line">        w_open.close()</span><br><span class="line"></span><br><span class="line">        tmpfile.close()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"file %s not found"</span> % file_name</span><br></pre></td></tr></table></figure>
+<h3 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">file_path = <span class="string">'xxx.properties'</span></span><br><span class="line">props = property.parse(file_path)   <span class="comment">#读取文件</span></span><br><span class="line">props.put(<span class="string">'key_a'</span>, <span class="string">'value_a'</span>)       <span class="comment">#修改/添加key=value</span></span><br><span class="line"><span class="keyword">print</span> props.get(<span class="string">'key_a'</span>)            <span class="comment">#根据key读取value</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"props.has_key('key_a')="</span> + str(props.has_key(<span class="string">'key_a'</span>))   <span class="comment">#判断是否包含该key</span></span><br></pre></td></tr></table></figure>
+<p>参考：<br><a href="http://blog.sina.com.cn/s/blog_6a24f10901018lhn.html" target="_blank" rel="noopener">Python实用脚本（1）：读取Properties文件</a></p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> properties </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Google Java style中文版]]></title>
+      <url>/google_java_style.html</url>
+      <content type="html"><![CDATA[<p class="description"></p>
+
+<a id="more"></a>
+<p>本文转载自：<a href="http://www.blogjava.net/zh-weir/archive/2014/02/08/409608.html" target="_blank" rel="noopener">http://www.blogjava.net/zh-weir/archive/2014/02/08/409608.html</a></p>
+<h1 id="Google-Java-Style-中文版"><a href="#Google-Java-Style-中文版" class="headerlink" title="Google Java Style 中文版"></a>Google Java Style 中文版</h1><p>基于官方文档2013.12.19最后一次改动。<br>翻译人：Weir Zhang (zh.weir)<br>旁白：水平有限，很多地方只是意译。不准确的地方，大家以原版文档为准。<br>原版地址：<a href="http://google-styleguide.googlecode.com/svn/trunk/javaguide.html" target="_blank" rel="noopener">http://google-styleguide.googlecode.com/svn/trunk/javaguide.html</a></p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>本文档为Google Java编程规范的完整定义。依照此规范编写的Java源码文件可以被称为Google Style。</p>
+<p>和其他编程规范指南一样，规范不仅包括了代码的结构美学，也包括了其他一些业界约定俗成的公约和普遍采用的标准。本文档中的规范基本都是业界已经达成共识的标准，我们尽量避免去定义那些还存在争议的地方。</p>
+<h3 id="术语说明"><a href="#术语说明" class="headerlink" title="术语说明"></a>术语说明</h3><p>本文档除非特殊说明，否则：<br>a、class（类）统指普通的class类型、enum枚举类型、interface类型和annotation类型。<br>b、comment（注释）总是指implementation comments（实现注释，/<em> </em>/）。我们不使用“文档注释”这样的说法，而会直接说javadoc。</p>
+<p>其他术语说明，将在文档中需要说明的地方单独说明。</p>
+<h3 id="文档说明"><a href="#文档说明" class="headerlink" title="文档说明"></a>文档说明</h3><p>本文档中的代码并不一定符合所有规范。即使这些代码遵循Google Style，但这不是唯一的代码规范。例子中可选的格式风格也不应该作为强制执行的规范。</p>
+<h2 id="源码文件基础"><a href="#源码文件基础" class="headerlink" title="源码文件基础"></a>源码文件基础</h2><h3 id="文件名"><a href="#文件名" class="headerlink" title="文件名"></a>文件名</h3><p>源码文件名由它所包含的顶级class的类名（大小写敏感），加上.java后缀组成。（除了package-info.java文件）。</p>
+<h3 id="文件编码：UTF-8"><a href="#文件编码：UTF-8" class="headerlink" title="文件编码：UTF-8"></a>文件编码：UTF-8</h3><p>源码文件使用UTF-8编码。</p>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><h4 id="空格字符"><a href="#空格字符" class="headerlink" title="空格字符"></a>空格字符</h4><p>除了换行符外，ASCII水平空白字符（0x20）是源码文件中唯一支持的空格字符。这意味着：<br>a、其他空白字符将被转义。<br>b、Tab字符不被用作缩进控制。</p>
+<h4 id="特殊转义字符串"><a href="#特殊转义字符串" class="headerlink" title="特殊转义字符串"></a>特殊转义字符串</h4><p>任何需要转义字符串表示的字符（例如\b, \t, \n, \f, \r, \’, \等），采用这种转义字符串的方式表示，而不采用对应字符的八进制数（例如 \012）或Unicode码（例如 \u000a）表示。</p>
+<h4 id="非ASCII字符"><a href="#非ASCII字符" class="headerlink" title="非ASCII字符"></a>非ASCII字符</h4><p>对于其余非ASCII字符，直接使用Unicode字符（例如 ∞），或者使用对应的Unicode码（例如 \u221e）转义，都是允许的。唯一需要考虑的是，何种方式更能使代码容易阅读和理解。</p>
+<p>注意：在使用unicode码转义，或者甚至是有时直接使用unicode字符的时候，添加一点说明注释将对别人读懂代码很有帮助。</p>
+<p>例子：</p>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Discussion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>String unitAbbrev = &quot;μs&quot;;</code></td>
+<td>Best: perfectly clear even without a comment.</td>
+</tr>
+<tr>
+<td><code>String unitAbbrev = &quot;\u03bcs&quot;; // &quot;μs&quot;</code></td>
+<td>Allowed, but there’s no reason to do this.</td>
+</tr>
+<tr>
+<td><code>String unitAbbrev = &quot;\u03bcs&quot;; // Greek letter mu, &quot;s&quot;</code></td>
+<td>Allowed, but awkward and prone to mistakes.</td>
+</tr>
+<tr>
+<td><code>String unitAbbrev = &quot;\u03bcs&quot;;</code></td>
+<td>Poor: the reader has no idea what this is.</td>
+</tr>
+<tr>
+<td><code>return &#39;\ufeff&#39; + content; // byte order mark</code></td>
+<td>Good: use escapes for non-printable characters, and comment if necessary.</td>
+</tr>
+</tbody>
+</table>
+<p>注意：不要因为担心一些程序无法正常处理费ASCII字符而不使用它，从而导致代码易读性变差。如果出现这样的问题，应该由出现问题的程序去解决。</p>
+<h2 id="源码文件结构"><a href="#源码文件结构" class="headerlink" title="源码文件结构"></a>源码文件结构</h2><p>源码文件按照先后顺序，由以下几部分组成：</p>
+<ul>
+<li>a、License或者copyright声明信息。（如果需要声明）</li>
+<li>b、包声明语句。</li>
+<li>c、import语句。</li>
+<li>d、class类声明（每个源码文件只能有唯一一个顶级class）。</li>
+</ul>
+<p>每个部分之间应该只有一行空行作为间隔。</p>
+<h3 id="lincense-或者-copyright的声明信息。"><a href="#lincense-或者-copyright的声明信息。" class="headerlink" title="lincense 或者 copyright的声明信息。"></a>lincense 或者 copyright的声明信息。</h3><p>如果需要声明lincense或copyright信息，应该在文件开始时声明。</p>
+<h3 id="包声明"><a href="#包声明" class="headerlink" title="包声明"></a>包声明</h3><p>包声明的行，没有行长度的限制。单行长度限制（4.4部分有详细说明，80或100）不适用于包声明。</p>
+<h3 id="import语句"><a href="#import语句" class="headerlink" title="import语句"></a>import语句</h3><h4 id="不使用通配符import"><a href="#不使用通配符import" class="headerlink" title="不使用通配符import"></a>不使用通配符import</h4><p>不应该使用通配符import，不管是否是静态导入。</p>
+<h4 id="没有行长度限制"><a href="#没有行长度限制" class="headerlink" title="没有行长度限制"></a>没有行长度限制</h4><p>import语句的行，没有行长度的限制。单行长度限制（4.4部分有详细说明，80或100）不适用于import语句所在行。</p>
+<h4 id="顺序和空行"><a href="#顺序和空行" class="headerlink" title="顺序和空行"></a>顺序和空行</h4><p>import语句应该被分为几个组，每个组之间由单行的空行隔开。分组的顺序如下：</p>
+<ul>
+<li>a、所有的static import为归为一组。</li>
+<li>b、com.google 包的import归为一组。</li>
+<li>c、使用的第三方包的引用。每个顶级第三方包归为一组。第三方包之间按ASCII码排序。例如：android, com, junit, org, sun</li>
+<li>d、java包归为一组。</li>
+<li>e、javax包归为一组。</li>
+</ul>
+<p>同一组内的import语句之间不应用空行隔开。同一组中的import语句按ASCII码排序。</p>
+<h3 id="类声明"><a href="#类声明" class="headerlink" title="类声明"></a>类声明</h3><h4 id="只声明唯一一个顶级class"><a href="#只声明唯一一个顶级class" class="headerlink" title="只声明唯一一个顶级class"></a>只声明唯一一个顶级class</h4><p>每个源码文件中只能有一个顶级class。package-info.java文件除外。</p>
+<h4 id="类成员顺序"><a href="#类成员顺序" class="headerlink" title="类成员顺序"></a>类成员顺序</h4><p>类成员的顺序对代码的易读性有很大影响，但是没有一个统一正确的标准。不同的类可能有不同的排序方式。</p>
+<p>重要的是，每个class都要按照一定的逻辑规律排序。当被问及时，能够解释清楚为什么这样排序。例如，新增加的成员方法，不是简单地放在class代码最后面，按日期排序不是按逻辑排序。</p>
+<h5 id="重载方法：不应该分开"><a href="#重载方法：不应该分开" class="headerlink" title="重载方法：不应该分开"></a>重载方法：不应该分开</h5><p>当一个类有多个构造函数，或者多个同名成员方法时，这些函数应该写在一起，不应该被其他成员分开。</p>
+<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p>术语说明：块状结构（block-like construct）指类、成员函数和构造函数的实现部分（花括号中间部分）。注意，在后面的4.8.3.1节中讲到数组初始化，所有的数组初始化都可以被认为是一个块状结构（非强制）。</p>
+<h3 id="花括号"><a href="#花括号" class="headerlink" title="花括号"></a>花括号</h3><h4 id="花括号在需要的地方使用"><a href="#花括号在需要的地方使用" class="headerlink" title="花括号在需要的地方使用"></a>花括号在需要的地方使用</h4><p>花括号一般用在if, else, for, do, 和 while等语句。甚至当它的实现为空或者只有一句话时，也需要使用。</p>
+<h4 id="非空语句块采用K-amp-R风格"><a href="#非空语句块采用K-amp-R风格" class="headerlink" title="非空语句块采用K&amp;R风格"></a>非空语句块采用K&amp;R风格</h4><p>对于非空语句块，花括号遵循K&amp;R风格：</p>
+<ul>
+<li>a、左括号前不换行。</li>
+<li>b、左括号后换行。</li>
+<li>c、右括号前换行。</li>
+<li>d、如果右括号结束一个语句块或者函数体、构造函数体或者有命名的类体，则需要换行。例如，当右括号后面接else或者逗号时，不应该换行。</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> MyClass()&#123;</span><br><span class="line">  <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(condition())&#123;</span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">        something()</span><br><span class="line">      &#125; <span class="keyword">catch</span>(ProblemException e)&#123;</span><br><span class="line">        recover();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一些例外的情况，将在4.8.1节讲枚举类型的时候讲到。</p>
+<h4 id="空语句块：使代码更简洁"><a href="#空语句块：使代码更简洁" class="headerlink" title="空语句块：使代码更简洁"></a>空语句块：使代码更简洁</h4><p>一个空的语句块，可以在左花括号之后直接接右花括号，中间不需要空格或换行。但是当一个由几个语句块联合组成的语句块时，则需要换行。（例如：if/else-if/else try/catch/finally）.</p>
+<p>例子：</p>
+<pre><code>void doNothing() {}
+</code></pre><h3 id="语句块的缩进：2空格"><a href="#语句块的缩进：2空格" class="headerlink" title="语句块的缩进：2空格"></a>语句块的缩进：2空格</h3><p>每当一个新的语句块产生，缩进就增加两个空格。当这个语句块结束时，缩进恢复到上一层级的缩进格数。缩进要求对整个语句块中的代码和注释都适用。（例子可参考之前4.1.2节中的例子）。</p>
+<h3 id="一行最多只有一句代码"><a href="#一行最多只有一句代码" class="headerlink" title="一行最多只有一句代码"></a>一行最多只有一句代码</h3><p>每句代码的结束都需要换行。</p>
+<h3 id="行长度限制：80或100"><a href="#行长度限制：80或100" class="headerlink" title="行长度限制：80或100"></a>行长度限制：80或100</h3><p>不同的项目可以选择采用80个字符或者100个字符作为限制。除了以下几个特殊情况外，其他代码内容都需要遵守这个长度限制。这在4.5节会有详细解释。</p>
+<p>例外：</p>
+<ul>
+<li>a、按照行长度限制，无法实现地方（例如：javadoc中超长的URL地址， 或者一个超长的JSNI方法的引用）；</li>
+<li>b、package和import语句不受长度限制。（见3.2、3.3节）；</li>
+<li>c、注释中的命令行指令行，将被直接复制到shell中执行的。</li>
+</ul>
+<h3 id="长行断行"><a href="#长行断行" class="headerlink" title="长行断行"></a>长行断行</h3><p>术语说明：当一行代码按照其他规范都合法，只是为了避免超出行长度限制而换行时，称为长行断行。</p>
+<p>长行断行，没有一个适合所有场景的全面、确定的规范。但很多相同的情况，我们经常使用一些行之有效的断行方法。</p>
+<p>注意：将长行封装为函数，或者使用局部变量的方法，也可以解决一些超出行长度限制的情况。并非一定要断行。</p>
+<h4 id="在何处断行"><a href="#在何处断行" class="headerlink" title="在何处断行"></a>在何处断行</h4><p>断行的主要原则是：选择在更高一级的语法逻辑的地方断行。其他一些原则如下：</p>
+<ul>
+<li>a、当一个非赋值运算的语句断行时，在运算符号之前断行。（这与Google的C++规范和JavaScrip规范等其他规范不同）。</li>
+<li>b、当一个赋值运算语句断行时，一般在赋值符号之后断行。但是也可以在之前断行。</li>
+<li>c、在调用函数或者构造函数需要断行时，与函数名相连的左括号要在一行。也就是在左括号之后断行。</li>
+<li>d、逗号断行时，要和逗号隔开的前面的语句断行。也就是在逗号之后断行。</li>
+</ul>
+<h4 id="断行的缩进：至少4个字符"><a href="#断行的缩进：至少4个字符" class="headerlink" title="断行的缩进：至少4个字符"></a>断行的缩进：至少4个字符</h4><p>当断行之后，在第一行之后的行，我们叫做延续行。每一个延续行在第一行的基础上至少缩进四个字符。<br>当原行之后有多个延续行的情况，缩进可以大于4个字符。如果多个延续行之间由同样的语法元素断行，它们可以采用相同的缩进。</p>
+<h3 id="空白空间"><a href="#空白空间" class="headerlink" title="空白空间"></a>空白空间</h3><h4 id="垂直空白"><a href="#垂直空白" class="headerlink" title="垂直空白"></a>垂直空白</h4><p>单行空行在以下情况使用：</p>
+<ul>
+<li>a、类成员间需要空行隔开：例如成员变量、构造函数、成员函数、内部类、静态初始化语句块（static initializers）、实例初始化语句块（instance initializers）。<br>  例外：成员变量之间的空白行不是必需的。一般多个成员变量中间的空行，是为了对成员变量做逻辑上的分组。</li>
+<li>b、在函数内部，根据代码逻辑分组的需要，设置空白行作为间隔。</li>
+<li>c、类的第一个成员之前，或者最后一个成员结束之后，用空行间隔。（可选）</li>
+<li>d、本文档中其他部分介绍的需要空行的情况。（例如 3.3节中的import语句）</li>
+</ul>
+<p>单空行时使用多行空行是允许的，但是不要求也不鼓励。</p>
+<h4 id="水平空白"><a href="#水平空白" class="headerlink" title="水平空白"></a>水平空白</h4><p>除了语法、其他规则、词语分隔、注释和javadoc外，水平的ASCII空格只在以下情况出现：</p>
+<ul>
+<li>a、所有保留的关键字与紧接它之后的位于同一行的左括号之间需要用空格隔开。（例如if、for、catch）</li>
+<li>b、所有保留的关键字与在它之前的右花括号之间需要空格隔开。（例如else、catch）</li>
+<li>c、在左花括号之前都需要空格隔开。只有两种例外：<br><code>@SomeAnnotation({a, b})</code><br><code>String[][] x = foo;</code></li>
+<li>d、所有的二元运算符和三元运算符的两边，都需要空格隔开。</li>
+<li>e、逗号、冒号、分号和右括号之后，需要空格隔开。</li>
+<li>f、// 双斜线开始一行注释时。双斜线两边都应该用空格隔开。并且可使用多个空格，但是不做强制要求。</li>
+<li>g、变量声明时，变量类型和变量名之间需要用空格隔开。</li>
+<li>h、初始化一个数组时，花括号之间可以用空格隔开，也可以不使用。（例如：new int[] {5, 6} 和 new int[] { 5, 6 } 都可以）</li>
+</ul>
+<p>注意：这一原则不影响一行开始或者结束时的空格。只针对行内部字符之间的隔开。</p>
+<h4 id="水平对齐：不做强制要求"><a href="#水平对齐：不做强制要求" class="headerlink" title="水平对齐：不做强制要求"></a>水平对齐：不做强制要求</h4><p>术语说明：水平对齐，是指通过添加多个空格，使本行的某一符号与上一行的某一符号上下对齐。</p>
+<p>这种对齐是被允许的，但是不会做强制要求。</p>
+<p>以下是没有水平对齐和水平对齐的例子;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> x;   <span class="comment">// this is fine</span></span><br><span class="line"><span class="keyword">private</span> Color color;   <span class="comment">// this too</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span>      x;          <span class="comment">// permitted, but future edits</span></span><br><span class="line"><span class="keyword">private</span> Color color;    <span class="comment">// may leave it unaligned</span></span><br></pre></td></tr></table></figure></p>
+<p>注意：水平对齐能够增加代码的可读性，但是增加了未来维护代码的难度。考虑到维护时只需要改变一行代码，之前的对齐可以不需要改动。为了对齐，你更有可能改了一行代码，同时需要更改附近的好几行代码，而这几行代码的改动，可能又会引起一些为了保持对齐的代码改动。那原本这行改动，我们称之为“爆炸半径”。这种改动，在最坏的情况下可能会导致大量的无意义的工作，即使在最好的情况下，也会影响版本历史信息，减慢代码review的速度，引起更多merge代码冲突的情况。</p>
+<h3 id="分组括号：建议使用"><a href="#分组括号：建议使用" class="headerlink" title="分组括号：建议使用"></a>分组括号：建议使用</h3><p>非必须的分组括号只有在编写代码者和代码审核者都认为大家不会因为没有它而导致代码理解错误的时候，或者它不会使代码更易理解的时候才能省略。没有理由认为所有阅读代码的人都能记住所有java运算符的优先级。</p>
+<h3 id="特殊结构"><a href="#特殊结构" class="headerlink" title="特殊结构"></a>特殊结构</h3><h4 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h4><p>每个逗号后接一个枚举变量，不要求换行。<br>枚举类型，如果没有函数和javadoc，处理格式是可以按照数组初始化来处理。</p>
+<p>例子：</p>
+<figure class="highlight plain"><figcaption><span>enum Suit &#123; CLUBS, HEARTS, SPADES, DIAMONDS &#125; ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">枚举类型也是一种类（Class），因此Class类的其他格式要求，也适用于枚举类型。</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">#### 变量声明</span><br><span class="line"> </span><br><span class="line">##### 每次声明一个变量</span><br><span class="line"> </span><br><span class="line">不要采用一个声明，声明多个变量。例如 int a, b; </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">##### 当需要时才声明，尽快完成初始化</span><br><span class="line"> </span><br><span class="line">局部变量不应该习惯性地放在语句块的开始处声明，而应该尽量离它第一次使用的地方最近的地方声明，以减小它们的使用范围。</span><br><span class="line"></span><br><span class="line">局部变量应该在声明的时候就进行初始化。如果不能在声明时初始化，也应该尽快完成初始化。</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">#### 数组</span><br><span class="line"> </span><br><span class="line">##### 数组初始化：可以类似块代码处理</span><br><span class="line"> </span><br><span class="line">所有数组的初始化，都可以采用和块代码相同的格式处理。例如以下格式都是允许的：</span><br><span class="line"></span><br><span class="line">``` java</span><br><span class="line">new int[]&#123;</span><br><span class="line">  0, 1, 2, 3</span><br><span class="line">&#125;</span><br><span class="line">new int[]&#123;</span><br><span class="line">  0,</span><br><span class="line">  1,</span><br><span class="line">  2,</span><br><span class="line">  3</span><br><span class="line">&#125;</span><br><span class="line">new int[]&#123;</span><br><span class="line">  0, 1,</span><br><span class="line">  2, 3</span><br><span class="line">&#125;</span><br><span class="line">new int[]</span><br><span class="line">  &#123;0, 1, 2, 3&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="不能像C风格一样声明数组"><a href="#不能像C风格一样声明数组" class="headerlink" title="不能像C风格一样声明数组"></a>不能像C风格一样声明数组</h5><p>方括号应该是变量类型的一部分，因此不应该和变量名放在一起。例如：应该是String[] args，而不是 String args[] 。</p>
+<h4 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h4><p>术语说明：switch语句是指在switch花括号中，包含了一组或多组语句块。每组语句块都由一个或多个switch标签（例如case FOO：或者 default：）打头。</p>
+<h5 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h5><p>和其他语句块一样，switch花括号之后缩进两个字符。</p>
+<p>每个switch标签之后，后面紧接的非标签的新行，按照花括号相同的处理方式缩进两个字符。在标签结束后，恢复到之前的缩进，类似花括号结束。</p>
+<h5 id="继续向下执行的注释"><a href="#继续向下执行的注释" class="headerlink" title="继续向下执行的注释"></a>继续向下执行的注释</h5><p>在switch语句中，每个标签对应的代码执行完后，都应该通过语句结束（例如：break、continue、return 或抛出异常），否则应该通过注释说明，代码需要继续向下执行下一个标签的代码。注释说明文字只要能说明代码需要继续往下执行都可以（通常是 //fall through）。这个注释在最后一个标签之后不需要注释。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(input)&#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    prepareOneOrTwo();</span><br><span class="line">    <span class="comment">// fall through</span></span><br><span class="line">  <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    handleOneTwoOrThree();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    handleLargeNumber(input);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="default标签需要显式声明"><a href="#default标签需要显式声明" class="headerlink" title="default标签需要显式声明"></a>default标签需要显式声明</h5><p>每个switch语句中，都需要显式声明default标签。即使没有任何代码也需要显示声明。</p>
+<h4 id="Annotations"><a href="#Annotations" class="headerlink" title="Annotations"></a>Annotations</h4><p>Annotations应用到类、函数或者构造函数时，应紧接javadoc之后。每一行只有一个Annotations。</p>
+<p>Annotations所在行不受行长度限制，也不需要增加缩进。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getNameIfPresent</span><span class="params">()</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>例外情况：</p>
+<p>如果Annotations只有一个，并且不带参数。则它可以和类或方法名放在同一行。例如：</p>
+<figure class="highlight plain"><figcaption><span>public int hashCode() &#123; ... &#125; ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">Annotations应用到成员变量时，也是紧接javadoc之后。不同的是，多个annotations可以放在同一行。例如：</span><br><span class="line"></span><br><span class="line">``` @Partial @Mock DataLoader loader;</span><br></pre></td></tr></table></figure>
+<p>对于参数或者局部变量使用Annotations的情况，没有特定的规范。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><h5 id="语句块的注释风格"><a href="#语句块的注释风格" class="headerlink" title="语句块的注释风格"></a>语句块的注释风格</h5><p>注释的缩进与它所注释的代码缩进相同。可以采用 /<em> \</em>/ 进行注释，也可以用 // 进行注释。当使用 /<em>*/ 进行多行注释时，每一行都应该以 </em> 开始， 并且 * 应该上下对齐。<br>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * This is</span></span><br><span class="line"><span class="comment"> * okay.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// And so</span></span><br><span class="line"><span class="comment">// is this.</span></span><br><span class="line"><span class="comment">/* Or you can </span></span><br><span class="line"><span class="comment"> * even do this. */</span></span><br></pre></td></tr></table></figure>
+<p>多行注释时，如果你希望集成开发环境能自动对齐注释，你应该使用 /**/， //一般不会自动对齐。</p>
+<h4 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h4><p>多个类和成员变量的修饰符，按Java Lauguage Specification中介绍的先后顺序排序。具体是：</p>
+<p>public  protected  private  abstract  static  final  transient  volatile  synchronized  native  strictfp</p>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><h3 id="适用于所有命名标识符的通用规范"><a href="#适用于所有命名标识符的通用规范" class="headerlink" title="适用于所有命名标识符的通用规范"></a>适用于所有命名标识符的通用规范</h3><p>标示符只应该使用ASCII字母、数字和下划线，字母大小写敏感。因此所有的标示符，都应该能匹配正则表达式 \w+ 。</p>
+<p>Google Style中，标示符不需要使用特殊的前缀或后缀，例如：name_, mName, s_name 和 kName。</p>
+<h3 id="不同类型的标示符规范"><a href="#不同类型的标示符规范" class="headerlink" title="不同类型的标示符规范"></a>不同类型的标示符规范</h3><h4 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h4><p>包名全部用小写字母，通过 . 将各级连在一起。不应该使用下划线。</p>
+<h4 id="类名"><a href="#类名" class="headerlink" title="类名"></a>类名</h4><p>类型的命名，采用以大写字母开头的大小写字符间隔的方式（UpperCamelCase）。<br>class命名一般使用名词或名词短语。interface的命名有时也可以使用形容词或形容词短语。annotation没有明确固定的规范。</p>
+<p>测试类的命名，应该以它所测试的类的名字为开头，并在最后加上Test结尾。例如：HashTest 、 HashIntegrationTest。</p>
+<h4 id="方法名"><a href="#方法名" class="headerlink" title="方法名"></a>方法名</h4><p>方法命名，采用以小写字母开头的大小写字符间隔的方式（lowerCamelCase）。</p>
+<p>方法命名一般使用动词或者动词短语。</p>
+<p>在JUnit的测试方法中，可以使用下划线，用来区分测试逻辑的名字，经常使用如下的结构：test<methodundertest>_<state> 。例如：testPop_emptyStack 。<br>测试方法也可以用其他方式进行命名。</state></methodundertest></p>
+<h4 id="常量名"><a href="#常量名" class="headerlink" title="常量名"></a>常量名</h4><p>常量命名，全部使用大写字符，词与词之间用下划线隔开。（CONSTANCE_CASE）。</p>
+<p>常量是一个静态成员变量，但不是所有的静态成员变量都是常量。在选择使用常量命名规则给变量命名时，你需要明确这个变量是否是常量。例如，如果这个变量的状态可以发生改变，那么这个变量几乎可以肯定不是常量。只是计划不会发生改变的变量不足以成为一个常量。下面是常量和非常量的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Constants</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUMBER = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> ImmutableList&lt;String&gt; NAMES = ImmutableList.of(<span class="string">"Ed"</span>, <span class="string">"Ann"</span>);</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Joiner COMMA_JOINER = Joiner.on(<span class="string">','</span>);</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> SomeMutableType[] EMPTY_ARRAY = &#123;&#125;;</span><br><span class="line">enmu SomeEnum &#123; ENUM_CONSTANT &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Not constants</span></span><br><span class="line"><span class="keyword">static</span> String nonFinal = <span class="string">"non-final"</span>;</span><br><span class="line"><span class="keyword">final</span> String nonStatic = <span class="string">"non-static"</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Set&lt;String&gt; mutableCollection = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> ImmutableSet&lt;SomeMutableType&gt; mutableElements = ImmutableSet.of(mutable);</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Logger logger = Logger.getLogger(MyClass.getName());</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> String[] nonEmptyArray = &#123;<span class="string">"these"</span>, <span class="string">"can"</span>, <span class="string">"change"</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>常量一般使用名词或者名词短语命名。</p>
+<h4 id="非常量的成员变量名"><a href="#非常量的成员变量名" class="headerlink" title="非常量的成员变量名"></a>非常量的成员变量名</h4><p>非常量的成员变量命名（包括静态变量和非静态变量），采用lowerCamelCase命名。<br>一般使用名词或名词短语。</p>
+<h4 id="参数名"><a href="#参数名" class="headerlink" title="参数名"></a>参数名</h4><p>参数命名采用lowerCamelCase命名。<br>应该避免使用一个字符作为参数的命名方式。</p>
+<h4 id="局部变量名"><a href="#局部变量名" class="headerlink" title="局部变量名"></a>局部变量名</h4><p>局部变量采用lowerCamelCase命名。它相对于其他类型的命名，可以采用更简短宽松的方式。<br>但即使如此，也应该尽量避免采用单个字母进行命名的情况，除了在循环体内使用的临时变量。</p>
+<p>即使局部变量是final、不可改变的，它也不能被认为是常量，也不应该采用常量的命名方式去命名。</p>
+<h4 id="类型名"><a href="#类型名" class="headerlink" title="类型名"></a>类型名</h4><p>类型名有两种命名方式：</p>
+<p>a、单独一个大写字母，有时后面再跟一个数字。（例如，E、T、X、T2）。<br>b、像一般的class命名一样（见5.2.2节），再在最后接一个大写字母。（例如，RequestT、FooBarT）。</p>
+<h3 id="Camel-case的定义"><a href="#Camel-case的定义" class="headerlink" title="Camel case的定义"></a>Camel case的定义</h3><p>有时一些短语被写成Camel case的时候可以有多种写法。例如一些缩写词汇，或者一些组合词：IPv6 或者 iOS 等。<br>为了统一写法，Google style给出了一种几乎可以确定为一种的写法。</p>
+<ul>
+<li>a、将字符全部转换为ASCII字符，并且去掉 ‘ 等符号。例如，”Müller’s algorithm” 被转换为 “Muellers algorithm” 。<br>b、将上一步转换的结果拆分成一个一个的词语。从空格处和从其他剩下的标点符号处划分。<br>  注意：一些已经是Camel case的词语，也应该在这个时候被拆分。（例如 AdWords 被拆分为 ad words）。但是例如iOS之类的词语，它其实不是一个Camel case的词语，而是人们惯例使用的一个词语，因此不用做拆分。</li>
+<li>c、经过上面两部后，先将所有的字母转换为小写，再把每个词语的第一个字母转换为大写。</li>
+<li>d、最后，将所有词语连在一起，形成一个标示符。</li>
+</ul>
+<p>注意：词语原来的大小写规则，应该被完全忽略。以下是一些例子：</p>
+<table>
+<thead>
+<tr>
+<th>Prose form</th>
+<th>Correct</th>
+<th>Incorrect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“XML HTTP request”</td>
+<td>XmlHttpRequest</td>
+<td>XMLHTTPRequest</td>
+</tr>
+<tr>
+<td>“new customer ID”</td>
+<td>newCustomerId</td>
+<td>newCustomerID</td>
+</tr>
+<tr>
+<td>“inner stopwatch”</td>
+<td>innerStopwatch</td>
+<td>innerStopWatch</td>
+</tr>
+<tr>
+<td>“supports IPv6 on IOS?”</td>
+<td>supportsIpv6OnIos</td>
+<td>supportsIPv6OnIOS</td>
+</tr>
+<tr>
+<td>“YouTube importer”</td>
+<td>YouTubeImporter</td>
+<td>YoutubeImporter*</td>
+</tr>
+</tbody>
+</table>
+<p>* 号表示可以接受，但是不建议使用。</p>
+<p>注意，有些词语在英文中，可以用 - 连接使用，也可以不使用 - 直接使用。例如 “nonempty”和 “non-empty”都是可以的。因此，方法名字为checkNonempty 或者checkNonEmpty 都是可以的。</p>
+<h2 id="编程实践"><a href="#编程实践" class="headerlink" title="编程实践"></a>编程实践</h2><h3 id="override-都应该使用"><a href="#override-都应该使用" class="headerlink" title="@override 都应该使用"></a>@override 都应该使用</h3><p>@override annotations只要是符合语法的，都应该使用。</p>
+<h3 id="异常捕获-不应该被忽略"><a href="#异常捕获-不应该被忽略" class="headerlink" title="异常捕获 不应该被忽略"></a>异常捕获 不应该被忽略</h3><p>一般情况下，catch住的异常不应该被忽略，而是都需要做适当的处理。例如将错误日志打印出来，或者如果认为这种异常不会发生，则应该作为断言异常重新抛出。</p>
+<p>如果这个catch住的异常确实不需要任何处理，也应该通过注释做出说明。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">int</span> i = Integer.parseInt(response);</span><br><span class="line">  <span class="keyword">return</span> handleNumericResponse(i);</span><br><span class="line">&#125; <span class="keyword">catch</span> (NumberFormatException ok) &#123;</span><br><span class="line">  <span class="comment">// it's not numeric: that's fine, just continue</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> handleTextResponse(response);</span><br></pre></td></tr></table></figure>
+<p>例外：在测试类里，有时会针对方法是否会抛出指定的异常，这样的异常是可以被忽略的。但是这个异常通常需要命名为： expected。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  emptyStack.pop();</span><br><span class="line">  fail();</span><br><span class="line">&#125; <span class="keyword">catch</span> (NoSuchElementException expected) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="静态成员的访问：应该通过类，而不是对象"><a href="#静态成员的访问：应该通过类，而不是对象" class="headerlink" title="静态成员的访问：应该通过类，而不是对象"></a>静态成员的访问：应该通过类，而不是对象</h3><p>当一个静态成员被访问时，应该通过class名去访问，而不应该使用这个class的具体实例对象。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Foo aFoo = ...;</span><br><span class="line">Foo.aStaticMethod(); <span class="comment">// good</span></span><br><span class="line">aFoo.aStaticMethod(); <span class="comment">// bad</span></span><br><span class="line">somethingThatYieldsAFoo().aStaticMethod(); <span class="comment">//very bad</span></span><br></pre></td></tr></table></figure>
+<h3 id="不使用Finalizers-方法"><a href="#不使用Finalizers-方法" class="headerlink" title="不使用Finalizers 方法"></a>不使用Finalizers 方法</h3><p>重载Object的finalize方法是非常非常罕见的。</p>
+<p>注意：不应该使用这以方法。如果你认为你必须使用，请先仔细阅读并理解 Effective Java 第七条 “Avoid Finalizers”。然后不要使用它。</p>
+<h2 id="Javadoc"><a href="#Javadoc" class="headerlink" title="Javadoc"></a>Javadoc</h2><h3 id="通用格式"><a href="#通用格式" class="headerlink" title="通用格式"></a>通用格式</h3><p>最基本的javadoc的通用格式如下例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * MUltiple lines of Javadoc text are written here,</span></span><br><span class="line"><span class="comment"> * wrapped normally..</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">method</span><span class="params">(String p1)</span> </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>或者为单行格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** An especially short bit of Javadoc. */</span></span><br></pre></td></tr></table></figure>
+<p>通用格式在任何时候使用都是可以的。当javadoc块只有一行时，可以使用单行格式来替代通用格式。</p>
+<h4 id="段落"><a href="#段落" class="headerlink" title="段落"></a>段落</h4><p>空白行：是指javadoc中，上下两个段落之间只有上下对齐的 * 字符的行。每个段落的第一行在第一个字符之前，有一个</p><p>标签，并且之后不要有任何空格。</p>
+<h4 id="从句"><a href="#从句" class="headerlink" title="@从句"></a>@从句</h4><p>所有标准的@从句，应该按照如下的顺序添加：@param、@return、@throws、@deprecated。并且这四种@从句，不应该出现在一个没有描述的Javadoc块中。</p>
+<p>当@从句无法在一行写完时，应该断行。延续行在第一行的@字符的位置，缩进至少4个字符单位。</p>
+<h3 id="摘要片段"><a href="#摘要片段" class="headerlink" title="摘要片段"></a>摘要片段</h3><p>每个类或者成员的javadoc，都是由一个摘要片段开始的。这个片段非常重要。因为它是类或者方法在使用时唯一能看到的文本说明。</p>
+<p>主要摘要只是一个片段，应该是一个名词短语或者动词短语，而不应该是一个完整的句子。但是它应该像一个完整的句子一样使用标点符号。</p>
+<p>注意：一种常见的错误是以这种形式使用javadoc：<code>/** @return the customer ID */</code>.这是不对的。应该改为：<code>/** Returns the customer ID. */</code>.</p>
+<h3 id="何处应该使用Javadoc"><a href="#何处应该使用Javadoc" class="headerlink" title="何处应该使用Javadoc"></a>何处应该使用Javadoc</h3><p>至少，Javadoc应该应用于所有的public类、public和protected的成员变量和方法。和少量例外的情况。例外情况如下。</p>
+<h4 id="例外：方法本身已经足够说明的情况"><a href="#例外：方法本身已经足够说明的情况" class="headerlink" title="例外：方法本身已经足够说明的情况"></a>例外：方法本身已经足够说明的情况</h4><p>当方法本身很显而易见时，可以不需要javadoc。例如：getFoo。没有必要加上javadoc说明“Returns the foo”。<br>单元测试中的方法基本都能通过方法名，显而易见地知道方法的作用。因此不需要增加javadoc。</p>
+<p>注意：有时候不应该引用此例外，来省略一些用户需要知道的信息。例如：getCannicalName 。当大部分代码阅读者不知道canonical name是什么意思时，不应该省略Javadoc,认为只能写<code>/** Returns the canonical name. */</code> 。</p>
+<h4 id="例外：重载方法"><a href="#例外：重载方法" class="headerlink" title="例外：重载方法"></a>例外：重载方法</h4><p>重载方法有时不需要再写Javadoc。</p>
+<h4 id="例外：可选的javadoc"><a href="#例外：可选的javadoc" class="headerlink" title="例外：可选的javadoc"></a>例外：可选的javadoc</h4><p>一些在包外不可见的class和成员变量或方法，根据需要，也可以使用javadoc。当一个注释用以说明这个类、变量或者方法的总体目标或行为时，可以使用Javadoc。</p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Java基础 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> google style </tag>
+            
+        </tags>
+        
+    </entry>
+    
+  
+  
+    
+    <entry>
+      <title></title>
+      <url>/categories/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="邱稳斌"><a href="#邱稳斌" class="headerlink" title="邱稳斌"></a>邱稳斌</h2><h2 id="2015年浙江大学本科毕业"><a href="#2015年浙江大学本科毕业" class="headerlink" title="2015年浙江大学本科毕业"></a>2015年浙江大学本科毕业</h2><h2 id="2018年浙江大学研究生即将毕业"><a href="#2018年浙江大学研究生即将毕业" class="headerlink" title="2018年浙江大学研究生即将毕业"></a>2018年浙江大学研究生即将毕业</h2><h2 id="即将入职网易考拉"><a href="#即将入职网易考拉" class="headerlink" title="即将入职网易考拉"></a>即将入职网易考拉</h2><h2 id="继续学习，继续成长"><a href="#继续学习，继续成长" class="headerlink" title="继续学习，继续成长"></a>继续学习，继续成长</h2>]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+  
+</search>
