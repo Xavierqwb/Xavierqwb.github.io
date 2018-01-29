@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="MySQL," />
+  <meta name="keywords" content="MySQL" />
 
 
 
@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Xavier&#39;s Blog">
 <meta property="og:description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T10:06:40.566Z">
+<meta property="og:updated_time" content="2018-01-29T11:31:19.439Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置MySQL允许外网访问">
 <meta name="twitter:description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
@@ -166,7 +166,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <h1 class="site-subtitle" itemprop="description"></h1>
       
   </div>
 
@@ -196,12 +196,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            关于
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -216,12 +226,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            分类
+            关于
           </a>
         </li>
       
@@ -275,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">配置MySQL允许外网访问</h1>
+          <h2 class="post-title" itemprop="name headline">配置MySQL允许外网访问</h2>
         
 
         <div class="post-meta">
@@ -520,7 +530,7 @@ mysql&gt; flush privileges;
                 alt="Wenbin Qiu  邱稳斌" />
             
               <p class="site-author-name" itemprop="name">Wenbin Qiu  邱稳斌</p>
-              <p class="site-description motion-element" itemprop="description">即将毕业</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           <nav class="site-state motion-element">
@@ -528,7 +538,7 @@ mysql&gt; flush privileges;
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
                   <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
@@ -631,7 +641,7 @@ mysql&gt; flush privileges;
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow">Hexo</a> 强力驱动</div>
 
 
 
@@ -917,6 +927,21 @@ mysql&gt; flush privileges;
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
   

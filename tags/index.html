@@ -85,6 +85,7 @@
 
 
 <meta name="description" content="即将毕业">
+<meta name="keywords" content="java, spring, Zhejiang University, mysql">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Xavier&#39;s Blog">
 <meta property="og:url" content="https://xavierqwb.github.io/tags/index.html">
@@ -165,7 +166,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <h1 class="site-subtitle" itemprop="description"></h1>
       
   </div>
 
@@ -195,12 +196,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            关于
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -215,12 +226,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            分类
+            关于
           </a>
         </li>
       
@@ -250,7 +261,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
+	<h2 class="post-title" itemprop="name headline"></h2>
 
 
 
@@ -267,7 +278,7 @@
                 目前共计 16 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/Executor/" style="font-size: 12px; color: #ccc">Executor</a> <a href="/tags/HashMap/" style="font-size: 12px; color: #ccc">HashMap</a> <a href="/tags/IO/" style="font-size: 12px; color: #ccc">IO</a> <a href="/tags/Java/" style="font-size: 21px; color: #6f6f6f">Java</a> <a href="/tags/Java基础/" style="font-size: 12px; color: #ccc">Java基础</a> <a href="/tags/Mac/" style="font-size: 12px; color: #ccc">Mac</a> <a href="/tags/MySQL/" style="font-size: 21px; color: #6f6f6f">MySQL</a> <a href="/tags/Python/" style="font-size: 30px; color: #111">Python</a> <a href="/tags/Springboot/" style="font-size: 12px; color: #ccc">Springboot</a> <a href="/tags/XML/" style="font-size: 12px; color: #ccc">XML</a> <a href="/tags/google-style/" style="font-size: 12px; color: #ccc">google style</a> <a href="/tags/http/" style="font-size: 12px; color: #ccc">http</a> <a href="/tags/json/" style="font-size: 12px; color: #ccc">json</a> <a href="/tags/properties/" style="font-size: 12px; color: #ccc">properties</a> <a href="/tags/取余/" style="font-size: 12px; color: #ccc">取余</a> <a href="/tags/哈希/" style="font-size: 12px; color: #ccc">哈希</a>
+              <a href="/tags/Executor/" style="font-size: 12px; color: #ccc">Executor</a> <a href="/tags/HashMap/" style="font-size: 12px; color: #ccc">HashMap</a> <a href="/tags/IO/" style="font-size: 12px; color: #ccc">IO</a> <a href="/tags/Java/" style="font-size: 21px; color: #6f6f6f">Java</a> <a href="/tags/Java8/" style="font-size: 12px; color: #ccc">Java8</a> <a href="/tags/Mac/" style="font-size: 12px; color: #ccc">Mac</a> <a href="/tags/MySQL/" style="font-size: 21px; color: #6f6f6f">MySQL</a> <a href="/tags/Python/" style="font-size: 30px; color: #111">Python</a> <a href="/tags/Springboot/" style="font-size: 12px; color: #ccc">Springboot</a> <a href="/tags/XML/" style="font-size: 12px; color: #ccc">XML</a> <a href="/tags/google-style/" style="font-size: 12px; color: #ccc">google style</a> <a href="/tags/http/" style="font-size: 12px; color: #ccc">http</a> <a href="/tags/json/" style="font-size: 12px; color: #ccc">json</a> <a href="/tags/properties/" style="font-size: 12px; color: #ccc">properties</a> <a href="/tags/取余/" style="font-size: 12px; color: #ccc">取余</a> <a href="/tags/哈希/" style="font-size: 12px; color: #ccc">哈希</a>
             </div>
           </div>
         
@@ -317,7 +328,7 @@
                 alt="Wenbin Qiu  邱稳斌" />
             
               <p class="site-author-name" itemprop="name">Wenbin Qiu  邱稳斌</p>
-              <p class="site-description motion-element" itemprop="description">即将毕业</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           <nav class="site-state motion-element">
@@ -325,7 +336,7 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
                   <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
@@ -412,7 +423,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow">Hexo</a> 强力驱动</div>
 
 
 
@@ -686,6 +697,21 @@
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
   
