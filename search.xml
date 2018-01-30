@@ -772,12 +772,6 @@ mysql&gt; flush privileges;
     
     <entry>
       <title></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="邱稳斌"><a href="#邱稳斌" class="headerlink" title="邱稳斌"></a>邱稳斌</h2><h2 id="2015年浙江大学本科毕业"><a href="#2015年浙江大学本科毕业" class="headerlink" title="2015年浙江大学本科毕业"></a>2015年浙江大学本科毕业</h2><h2 id="2018年浙江大学研究生即将毕业"><a href="#2018年浙江大学研究生即将毕业" class="headerlink" title="2018年浙江大学研究生即将毕业"></a>2018年浙江大学研究生即将毕业</h2><h2 id="即将入职网易考拉"><a href="#即将入职网易考拉" class="headerlink" title="即将入职网易考拉"></a>即将入职网易考拉</h2><h2 id="继续学习，继续成长"><a href="#继续学习，继续成长" class="headerlink" title="继续学习，继续成长"></a>继续学习，继续成长</h2>]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
       <url>/categories/index.html</url>
       <content type="html"></content>
     </entry>
@@ -786,6 +780,12 @@ mysql&gt; flush privileges;
       <title></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="邱稳斌"><a href="#邱稳斌" class="headerlink" title="邱稳斌"></a>邱稳斌</h2><h2 id="2015年浙江大学本科毕业"><a href="#2015年浙江大学本科毕业" class="headerlink" title="2015年浙江大学本科毕业"></a>2015年浙江大学本科毕业</h2><h2 id="2018年浙江大学研究生即将毕业"><a href="#2018年浙江大学研究生即将毕业" class="headerlink" title="2018年浙江大学研究生即将毕业"></a>2018年浙江大学研究生即将毕业</h2><h2 id="即将入职网易考拉"><a href="#即将入职网易考拉" class="headerlink" title="即将入职网易考拉"></a>即将入职网易考拉</h2><h2 id="继续学习，继续成长"><a href="#继续学习，继续成长" class="headerlink" title="继续学习，继续成长"></a>继续学习，继续成长</h2>]]></content>
     </entry>
     
   
