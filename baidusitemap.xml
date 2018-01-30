@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://xavierqwb.github.io/spring_scheduling.html</loc>
+    <lastmod>2018-01-30T07:23:50.588Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Scheduling</title>
+        <pubTime>2018-01-30T13:33:48.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="https://xavierqwb.github.io/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://xavierqwb.github.io/bit_AND_with_mod.html</loc>
     <lastmod>2018-01-30T06:52:42.056Z</lastmod>
     <data>
@@ -16,28 +38,6 @@
         <tag>哈希</tag>
          
         <tag>HashMap</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java基础" url="https://xavierqwb.github.io/categories/Java%E5%9F%BA%E7%A1%80/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://xavierqwb.github.io/spring_scheduling.html</loc>
-    <lastmod>2018-01-30T06:26:38.024Z</lastmod>
-    <data>
-        <display>
-        <title>Spring Scheduling</title>
-        <pubTime>2018-01-30T13:33:48.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-        <tag>Spring</tag>
          
          
            
