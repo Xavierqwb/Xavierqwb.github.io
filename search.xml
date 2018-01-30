@@ -3,6 +3,94 @@
   
     
     <entry>
+      <title><![CDATA[Spring Scheduling]]></title>
+      <url>/spring_scheduling.html</url>
+      <content type="html"><![CDATA[<p></p><p class="description"></p><br><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg" alt="" style="width:50%"><br><a id="more"></a><p></p>
+<h2 id="引入Maven依赖"><a href="#引入Maven依赖" class="headerlink" title="引入Maven依赖"></a>引入Maven依赖</h2><pre><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;
+&lt;/parent&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre><h2 id="注册ScheduledTask-bean"><a href="#注册ScheduledTask-bean" class="headerlink" title="注册ScheduledTask bean"></a>注册ScheduledTask bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledTasks</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"HH:mm:ss"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 每0.5秒执行一次</span></span><br><span class="line">	<span class="meta">@Scheduled</span>(fixedRate = <span class="number">500</span>) </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reportCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		logger.info(<span class="string">"The time is now &#123;&#125;"</span>, dateFormat.format(<span class="keyword">new</span> Date()));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 第一次延迟5秒，之后每延迟1秒执行一次</span></span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">5000</span>, fixedDelay = <span class="number">1000</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reportAgain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		logger.info(<span class="string">"Current time: &#123;&#125;"</span>, dateFormat.format(<span class="keyword">new</span> Date()));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>除了上述的两种方式配置周期外，还可以通过定制cron的方式来配置周期：</strong></p>
+<pre><code>@Scheduled(cron=&quot;0 0 * * * *&quot;) // 代表每个整点执行
+@Scheduled(cron=&quot;0 0 8-10 * * *&quot;) // 代表每天8、9、10点整执行
+</code></pre><p>具体的配置规则可以参考<a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html" target="_blank" rel="noopener">CronSequenceGenerator</a></p>
+<h2 id="配置启动类"><a href="#配置启动类" class="headerlink" title="配置启动类"></a>配置启动类</h2><pre><code>@SpringBootApplication
+@EnableScheduling
+public class Main {
+
+    public static void main(String[] args){
+        SpringApplication.run(Main.class, args);
+    }
+}
+</code></pre><p><strong>一定要配置上@EnableScheduling注解，这样spring-boot才会创建一个后台TaskExecutor来执行定时任务</strong></p>
+<p>启动main方法后，可以看到输出结果为：</p>
+<pre><code>2018-01-30 14:15:06.130 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:06
+2018-01-30 14:15:06.630 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:06
+2018-01-30 14:15:07.129 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:07
+2018-01-30 14:15:07.632 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:07
+2018-01-30 14:15:07.634 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - Current time: 14:15:07
+2018-01-30 14:15:08.129 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:08
+2018-01-30 14:15:08.630 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:08
+2018-01-30 14:15:08.635 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - Current time: 14:15:08
+2018-01-30 14:15:09.129 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:09
+</code></pre><h2 id="定制Executor"><a href="#定制Executor" class="headerlink" title="定制Executor"></a>定制Executor</h2><p>我们可以通过@Configuration注解来定制自己的Executor类，注意一定要实现<code>ScheduledExecutorService</code>或<code>TaskScheduler</code>接口，我们来举个栗子：</p>
+<pre><code>@Configuration
+public class CustomScheduleExecutor {
+
+    @Bean(destroyMethod = &quot;shutdown&quot;)
+    public ScheduledExecutorService taskScheduler() {
+        return new ScheduledThreadPoolExecutor(10, new ThreadFactory() {
+            private AtomicInteger count = new AtomicInteger(0);
+
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, &quot;customScheduledThread-&quot; + count.incrementAndGet());
+            }
+        });
+    }
+}
+</code></pre><p>在classpath中添加上述自定义配置类之后，再重新开启应用，可以看到控制台的输出变为：</p>
+<pre><code>2018-01-30 14:20:26.565 [customScheduledThread-7] INFO  com.xavier.ScheduledTasks - The time is now 14:20:26
+2018-01-30 14:20:27.065 [customScheduledThread-7] INFO  com.xavier.ScheduledTasks - The time is now 14:20:27
+2018-01-30 14:20:27.566 [customScheduledThread-4] INFO  com.xavier.ScheduledTasks - The time is now 14:20:27
+2018-01-30 14:20:27.566 [customScheduledThread-1] INFO  com.xavier.ScheduledTasks - Current time: 14:20:27
+2018-01-30 14:20:28.066 [customScheduledThread-4] INFO  com.xavier.ScheduledTasks - The time is now 14:20:28
+2018-01-30 14:20:28.566 [customScheduledThread-4] INFO  com.xavier.ScheduledTasks - The time is now 14:20:28
+2018-01-30 14:20:28.567 [customScheduledThread-10] INFO  com.xavier.ScheduledTasks - Current time: 14:20:28
+2018-01-30 14:20:29.067 [customScheduledThread-5] INFO  com.xavier.ScheduledTasks - The time is now 14:20:29
+2018-01-30 14:20:29.564 [customScheduledThread-5] INFO  com.xavier.ScheduledTasks - The time is now 14:20:29
+2018-01-30 14:20:29.572 [customScheduledThread-7] INFO  com.xavier.ScheduledTasks - Current time: 14:20:29
+</code></pre><p>可以看到，线程的名字已经更改为ThreadFactory设置的customScheduledThread，线程池的数量为10个</p>
+<p>代码详见<a href="https://github.com/Xavierqwb/spring-boot-scheduler" target="_blank" rel="noopener">github</a></p>
+<hr>]]></content>
+      
+        <categories>
+            
+            <category> Java基础 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Spring </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Springboot资源热加载]]></title>
       <url>/resource_hot_load_in_spring.html</url>
       <content type="html"><![CDATA[<p></p><p class="description"></p><br><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg" alt="" style="width:50%"><br><a id="more"></a><p></p>
@@ -778,14 +866,14 @@ mysql&gt; flush privileges;
     
     <entry>
       <title></title>
-      <url>/tags/index.html</url>
-      <content type="html"></content>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<h2 id="邱稳斌"><a href="#邱稳斌" class="headerlink" title="邱稳斌"></a>邱稳斌</h2><h2 id="2015年浙江大学本科毕业"><a href="#2015年浙江大学本科毕业" class="headerlink" title="2015年浙江大学本科毕业"></a>2015年浙江大学本科毕业</h2><h2 id="2018年浙江大学研究生即将毕业"><a href="#2018年浙江大学研究生即将毕业" class="headerlink" title="2018年浙江大学研究生即将毕业"></a>2018年浙江大学研究生即将毕业</h2><h2 id="即将入职网易考拉"><a href="#即将入职网易考拉" class="headerlink" title="即将入职网易考拉"></a>即将入职网易考拉</h2><h2 id="继续学习，继续成长"><a href="#继续学习，继续成长" class="headerlink" title="继续学习，继续成长"></a>继续学习，继续成长</h2>]]></content>
     </entry>
     
     <entry>
       <title></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<h2 id="邱稳斌"><a href="#邱稳斌" class="headerlink" title="邱稳斌"></a>邱稳斌</h2><h2 id="2015年浙江大学本科毕业"><a href="#2015年浙江大学本科毕业" class="headerlink" title="2015年浙江大学本科毕业"></a>2015年浙江大学本科毕业</h2><h2 id="2018年浙江大学研究生即将毕业"><a href="#2018年浙江大学研究生即将毕业" class="headerlink" title="2018年浙江大学研究生即将毕业"></a>2018年浙江大学研究生即将毕业</h2><h2 id="即将入职网易考拉"><a href="#即将入职网易考拉" class="headerlink" title="即将入职网易考拉"></a>即将入职网易考拉</h2><h2 id="继续学习，继续成长"><a href="#继续学习，继续成长" class="headerlink" title="继续学习，继续成长"></a>继续学习，继续成长</h2>]]></content>
+      <url>/tags/index.html</url>
+      <content type="html"></content>
     </entry>
     
   

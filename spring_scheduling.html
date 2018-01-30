@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="python, xml" />
+  <meta name="keywords" content="spring, java, schedule" />
 
 
 
@@ -84,18 +84,20 @@
 
 
 
-<meta name="description" content="在Python中解析XML文档">
-<meta name="keywords" content="python, xml">
+<meta name="description" content="在工作中，我们时常会遇到需要周期性地执行某一段代码的情况，或是后台轮询任务，例如在一些回调工作中使用MySQL来存储任务详情，然后用Timer进行轮询，现在Spring提供了一种非常便捷的方式来实现这个功能...">
+<meta name="keywords" content="spring, java, schedule">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python XML文档解析">
-<meta property="og:url" content="https://xavierqwb.github.io/xml_parse_in_python.html">
+<meta property="og:title" content="Spring Scheduling">
+<meta property="og:url" content="https://xavierqwb.github.io/spring_scheduling.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="在Python中解析XML文档">
+<meta property="og:description" content="在工作中，我们时常会遇到需要周期性地执行某一段代码的情况，或是后台轮询任务，例如在一些回调工作中使用MySQL来存储任务详情，然后用Timer进行轮询，现在Spring提供了一种非常便捷的方式来实现这个功能...">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T11:36:41.998Z">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg">
+<meta property="og:updated_time" content="2018-01-30T06:26:38.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python XML文档解析">
-<meta name="twitter:description" content="在Python中解析XML文档">
+<meta name="twitter:title" content="Spring Scheduling">
+<meta name="twitter:description" content="在工作中，我们时常会遇到需要周期性地执行某一段代码的情况，或是后台轮询任务，例如在一些回调工作中使用MySQL来存储任务详情，然后用Timer进行轮询，现在Spring提供了一种非常便捷的方式来实现这个功能...">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg">
 
 
 
@@ -125,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://xavierqwb.github.io/xml_parse_in_python.html"/>
+  <link rel="canonical" href="https://xavierqwb.github.io/spring_scheduling.html"/>
 
 
 
 
 
-  <title>Python XML文档解析 | Xavier's Blog</title>
+  <title>Spring Scheduling | Xavier's Blog</title>
   
 
 
@@ -268,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xavierqwb.github.io/xml_parse_in_python.html">
+    <link itemprop="mainEntityOfPage" href="https://xavierqwb.github.io/spring_scheduling.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xavier Wenbin Qiu 邱稳斌">
@@ -285,7 +287,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Python XML文档解析</h2>
+          <h2 class="post-title" itemprop="name headline">Spring Scheduling</h2>
         
 
         <div class="post-meta">
@@ -297,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T21:55:29+08:00">
-                2017-02-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T21:33:48+08:00">
+                2018-01-30
               </time>
             
 
@@ -320,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
                   </a>
                 </span>
 
@@ -338,9 +340,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/xml_parse_in_python.html#comments" itemprop="discussionUrl">
+                <a href="/spring_scheduling.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="xml_parse_in_python.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="spring_scheduling.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -348,7 +350,7 @@
 
           
           
-             <span id="/xml_parse_in_python.html" class="leancloud_visitors" data-flag-title="Python XML文档解析">
+             <span id="/spring_scheduling.html" class="leancloud_visitors" data-flag-title="Spring Scheduling">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -366,7 +368,7 @@
 
           
               <div class="post-description">
-                  在Python中解析XML文档
+                  在工作中，我们时常会遇到需要周期性地执行某一段代码的情况，或是后台轮询任务，例如在一些回调工作中使用MySQL来存储任务详情，然后用Timer进行轮询，现在Spring提供了一种非常便捷的方式来实现这个功能...
               </div>
           
 
@@ -383,21 +385,72 @@
       
 
       
-        <p class="description"></p>
+        <p></p><p class="description"></p><br><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fnxl4vqy2vj30bi0biwf6.jpg" alt="" style="width:50%"><br><a id="more"></a><p></p>
+<h2 id="引入Maven依赖"><a href="#引入Maven依赖" class="headerlink" title="引入Maven依赖"></a>引入Maven依赖</h2><pre><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;
+&lt;/parent&gt;
 
-<a id="more"></a>
-<p>在配置Jenkins的jobs的时候，需要用到对XML文件的操作，因此在网上找了一些方法，总结一下：</p>
-<h2 id="xml-xtree-Element库"><a href="#xml-xtree-Element库" class="headerlink" title="xml.xtree.Element库"></a>xml.xtree.Element库</h2><p>需要引入以下几个包：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xml.etree.ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="keyword">from</span> xml.etree.ElementTree <span class="keyword">import</span> ElementTree, Element</span><br></pre></td></tr></table></figure>
-<h3 id="读取XML文件到Python脚本中："><a href="#读取XML文件到Python脚本中：" class="headerlink" title="读取XML文件到Python脚本中："></a>读取XML文件到Python脚本中：</h3><h4 id="方法一：从文件中读取"><a href="#方法一：从文件中读取" class="headerlink" title="方法一：从文件中读取"></a>方法一：从文件中读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree = ElementTree()</span><br><span class="line">tree.parse(xmlPath)</span><br></pre></td></tr></table></figure>
-<h4 id="方法二：从字符串中读取"><a href="#方法二：从字符串中读取" class="headerlink" title="方法二：从字符串中读取"></a>方法二：从字符串中读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree = ET.fromstring(xmlString)</span><br></pre></td></tr></table></figure>
-<h3 id="寻找某个节点-nodeName或Path"><a href="#寻找某个节点-nodeName或Path" class="headerlink" title="寻找某个节点(nodeName或Path)"></a>寻找某个节点(nodeName或Path)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node = tree.find(tagNameOrPath) <span class="comment"># 可以通过tag name或者path寻找到第一个符合的节点，没有找到返回None</span></span><br></pre></td></tr></table></figure>
-<h3 id="增加-改变-删除节点的属性"><a href="#增加-改变-删除节点的属性" class="headerlink" title="增加/改变/删除节点的属性"></a>增加/改变/删除节点的属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.set(key, value) <span class="comment"># 增加或修改node下名称为key的属性，值为value</span></span><br><span class="line"><span class="keyword">del</span> node.attrib[key] <span class="comment"># 删除node下名称为key的属性</span></span><br></pre></td></tr></table></figure>
-<h3 id="对节点增加-改变-删除文本"><a href="#对节点增加-改变-删除文本" class="headerlink" title="对节点增加/改变/删除文本"></a>对节点增加/改变/删除文本</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">node.text += text <span class="comment"># 增加</span></span><br><span class="line">node.text = text <span class="comment"># 改变</span></span><br><span class="line">node.text = <span class="string">''</span> <span class="comment"># 删除</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">总之，对node.text进行操作就对了</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建一个新的节点"><a href="#创建一个新的节点" class="headerlink" title="创建一个新的节点"></a>创建一个新的节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element = Element(tag, propertyDict) <span class="comment"># tag是新节点的名称，propertyDict是新节点的属性字典</span></span><br><span class="line">element.text = text <span class="comment"># 新节点的文本内容</span></span><br></pre></td></tr></table></figure>
-<h3 id="在节点下加入-删除节点"><a href="#在节点下加入-删除节点" class="headerlink" title="在节点下加入/删除节点"></a>在节点下加入/删除节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.append(element) <span class="comment"># 加入多个节点时可以用extend(subelements)</span></span><br><span class="line">node.remove(element) <span class="comment"># 删除node下的element节点</span></span><br></pre></td></tr></table></figure>
-<p>更多细节，可以查看官方文档：</p>
-<p><a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml-tree-and-elements" target="_blank" rel="noopener">https://docs.python.org/2/library/xml.etree.elementtree.html#xml-tree-and-elements</a></p>
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre><h2 id="注册ScheduledTask-bean"><a href="#注册ScheduledTask-bean" class="headerlink" title="注册ScheduledTask bean"></a>注册ScheduledTask bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledTasks</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"HH:mm:ss"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 每0.5秒执行一次</span></span><br><span class="line">	<span class="meta">@Scheduled</span>(fixedRate = <span class="number">500</span>) </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reportCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		logger.info(<span class="string">"The time is now &#123;&#125;"</span>, dateFormat.format(<span class="keyword">new</span> Date()));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 第一次延迟5秒，之后每延迟1秒执行一次</span></span><br><span class="line">	<span class="meta">@Scheduled</span>(initialDelay = <span class="number">5000</span>, fixedDelay = <span class="number">1000</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reportAgain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		logger.info(<span class="string">"Current time: &#123;&#125;"</span>, dateFormat.format(<span class="keyword">new</span> Date()));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>除了上述的两种方式配置周期外，还可以通过定制cron的方式来配置周期：</strong></p>
+<pre><code>@Scheduled(cron=&quot;0 0 * * * *&quot;) // 代表每个整点执行
+@Scheduled(cron=&quot;0 0 8-10 * * *&quot;) // 代表每天8、9、10点整执行
+</code></pre><p>具体的配置规则可以参考<a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html" target="_blank" rel="noopener">CronSequenceGenerator</a></p>
+<h2 id="配置启动类"><a href="#配置启动类" class="headerlink" title="配置启动类"></a>配置启动类</h2><pre><code>@SpringBootApplication
+@EnableScheduling
+public class Main {
+
+    public static void main(String[] args){
+        SpringApplication.run(Main.class, args);
+    }
+}
+</code></pre><p><strong>一定要配置上@EnableScheduling注解，这样spring-boot才会创建一个后台TaskExecutor来执行定时任务</strong></p>
+<p>启动main方法后，可以看到输出结果为：</p>
+<pre><code>2018-01-30 14:15:06.130 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:06
+2018-01-30 14:15:06.630 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:06
+2018-01-30 14:15:07.129 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:07
+2018-01-30 14:15:07.632 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:07
+2018-01-30 14:15:07.634 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - Current time: 14:15:07
+2018-01-30 14:15:08.129 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:08
+2018-01-30 14:15:08.630 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:08
+2018-01-30 14:15:08.635 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - Current time: 14:15:08
+2018-01-30 14:15:09.129 [pool-2-thread-1] INFO  com.xavier.ScheduledTasks - The time is now 14:15:09
+</code></pre><h2 id="定制Executor"><a href="#定制Executor" class="headerlink" title="定制Executor"></a>定制Executor</h2><p>我们可以通过@Configuration注解来定制自己的Executor类，注意一定要实现<code>ScheduledExecutorService</code>或<code>TaskScheduler</code>接口，我们来举个栗子：</p>
+<pre><code>@Configuration
+public class CustomScheduleExecutor {
+
+    @Bean(destroyMethod = &quot;shutdown&quot;)
+    public ScheduledExecutorService taskScheduler() {
+        return new ScheduledThreadPoolExecutor(10, new ThreadFactory() {
+            private AtomicInteger count = new AtomicInteger(0);
+
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, &quot;customScheduledThread-&quot; + count.incrementAndGet());
+            }
+        });
+    }
+}
+</code></pre><p>在classpath中添加上述自定义配置类之后，再重新开启应用，可以看到控制台的输出变为：</p>
+<pre><code>2018-01-30 14:20:26.565 [customScheduledThread-7] INFO  com.xavier.ScheduledTasks - The time is now 14:20:26
+2018-01-30 14:20:27.065 [customScheduledThread-7] INFO  com.xavier.ScheduledTasks - The time is now 14:20:27
+2018-01-30 14:20:27.566 [customScheduledThread-4] INFO  com.xavier.ScheduledTasks - The time is now 14:20:27
+2018-01-30 14:20:27.566 [customScheduledThread-1] INFO  com.xavier.ScheduledTasks - Current time: 14:20:27
+2018-01-30 14:20:28.066 [customScheduledThread-4] INFO  com.xavier.ScheduledTasks - The time is now 14:20:28
+2018-01-30 14:20:28.566 [customScheduledThread-4] INFO  com.xavier.ScheduledTasks - The time is now 14:20:28
+2018-01-30 14:20:28.567 [customScheduledThread-10] INFO  com.xavier.ScheduledTasks - Current time: 14:20:28
+2018-01-30 14:20:29.067 [customScheduledThread-5] INFO  com.xavier.ScheduledTasks - The time is now 14:20:29
+2018-01-30 14:20:29.564 [customScheduledThread-5] INFO  com.xavier.ScheduledTasks - The time is now 14:20:29
+2018-01-30 14:20:29.572 [customScheduledThread-7] INFO  com.xavier.ScheduledTasks - Current time: 14:20:29
+</code></pre><p>可以看到，线程的名字已经更改为ThreadFactory设置的customScheduledThread，线程池的数量为10个</p>
+<p>代码详见<a href="https://github.com/Xavierqwb/spring-boot-scheduler" target="_blank" rel="noopener">github</a></p>
 <hr>
       
     </div>
@@ -425,9 +478,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
-            <a href="/tags/XML/" rel="tag"># XML</a>
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
           
         </div>
       
@@ -440,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/http_request_in_python.html" rel="next" title="Python发送http请求">
-                <i class="fa fa-chevron-left"></i> Python发送http请求
+              <a href="/resource_hot_load_in_spring.html" rel="next" title="Springboot资源热加载">
+                <i class="fa fa-chevron-left"></i> Springboot资源热加载
               </a>
             
           </div>
@@ -449,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/json_in_python.html" rel="prev" title="Python中json包的使用">
-                Python中json包的使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -616,7 +665,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#xml-xtree-Element库"><span class="nav-number">1.</span> <span class="nav-text">xml.xtree.Element库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取XML文件到Python脚本中："><span class="nav-number">1.1.</span> <span class="nav-text">读取XML文件到Python脚本中：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一：从文件中读取"><span class="nav-number">1.1.1.</span> <span class="nav-text">方法一：从文件中读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二：从字符串中读取"><span class="nav-number">1.1.2.</span> <span class="nav-text">方法二：从字符串中读取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寻找某个节点-nodeName或Path"><span class="nav-number">1.2.</span> <span class="nav-text">寻找某个节点(nodeName或Path)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加-改变-删除节点的属性"><span class="nav-number">1.3.</span> <span class="nav-text">增加/改变/删除节点的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对节点增加-改变-删除文本"><span class="nav-number">1.4.</span> <span class="nav-text">对节点增加/改变/删除文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个新的节点"><span class="nav-number">1.5.</span> <span class="nav-text">创建一个新的节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在节点下加入-删除节点"><span class="nav-number">1.6.</span> <span class="nav-text">在节点下加入/删除节点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引入Maven依赖"><span class="nav-number">1.</span> <span class="nav-text">引入Maven依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册ScheduledTask-bean"><span class="nav-number">2.</span> <span class="nav-text">注册ScheduledTask bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置启动类"><span class="nav-number">3.</span> <span class="nav-text">配置启动类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定制Executor"><span class="nav-number">4.</span> <span class="nav-text">定制Executor</span></a></li></ol></div>
             
 
           </div>
@@ -818,9 +867,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://xavierqwb.github.io/xml_parse_in_python.html';
-          this.page.identifier = 'xml_parse_in_python.html';
-          this.page.title = 'Python XML文档解析';
+          this.page.url = 'https://xavierqwb.github.io/spring_scheduling.html';
+          this.page.identifier = 'spring_scheduling.html';
+          this.page.title = 'Spring Scheduling';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavier.disqus.com/embed.js';
