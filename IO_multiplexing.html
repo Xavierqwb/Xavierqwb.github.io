@@ -74,7 +74,7 @@
 
 
 
-  <meta name="keywords" content="Executor," />
+  <meta name="keywords" content="IO多路复用,select,poll,epoll" />
 
 
 
@@ -85,18 +85,26 @@
 
 
 
-<meta name="description" content="在Java程序中调用外部系统的功能实现">
-<meta name="keywords" content="Executor">
+<meta name="description" content="提到select、poll、epoll相信大家都耳熟能详了，三个都是IO多路复用的机制，可以监视多个描述符的读/写等事件，一旦某个描述符就绪（一般是读或者写事件发生了），就能够将发生的事件通知给关心的应用程序去处理该事件。本质上，select、poll、epoll本质上都是同步I/O......">
+<meta name="keywords" content="IO多路复用,select,poll,epoll">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java调用外部程序">
-<meta property="og:url" content="https://xavierqwb.github.io/java_invoke_system_procedure.html">
+<meta property="og:title" content="Netty学习(1)——IO多路复用">
+<meta property="og:url" content="https://xavierqwb.github.io/IO_multiplexing.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="在Java程序中调用外部系统的功能实现">
+<meta property="og:description" content="提到select、poll、epoll相信大家都耳熟能详了，三个都是IO多路复用的机制，可以监视多个描述符的读/写等事件，一旦某个描述符就绪（一般是读或者写事件发生了），就能够将发生的事件通知给关心的应用程序去处理该事件。本质上，select、poll、epoll本质上都是同步I/O......">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T10:09:40.632Z">
+<meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISqxGSPMmE3-xUhnnBYWXiJNGyZO8rEtiTjx-f0lWRFehfklX">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201604/20150405_VKYH.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201604/20152818_DXcj.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201604/20164149_LD8E.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201604/21091434_DsZb.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201604/20175459_gtgw.png">
+<meta property="og:image" content="https://images0.cnblogs.com/blog/305504/201308/17201205-8ac47f1f1fcd4773bd4edd947c0bb1f4.png">
+<meta property="og:updated_time" content="2018-02-01T08:39:39.276Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java调用外部程序">
-<meta name="twitter:description" content="在Java程序中调用外部系统的功能实现">
+<meta name="twitter:title" content="Netty学习(1)——IO多路复用">
+<meta name="twitter:description" content="提到select、poll、epoll相信大家都耳熟能详了，三个都是IO多路复用的机制，可以监视多个描述符的读/写等事件，一旦某个描述符就绪（一般是读或者写事件发生了），就能够将发生的事件通知给关心的应用程序去处理该事件。本质上，select、poll、epoll本质上都是同步I/O......">
+<meta name="twitter:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISqxGSPMmE3-xUhnnBYWXiJNGyZO8rEtiTjx-f0lWRFehfklX">
 
 
 
@@ -126,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://xavierqwb.github.io/java_invoke_system_procedure.html"/>
+  <link rel="canonical" href="https://xavierqwb.github.io/IO_multiplexing.html"/>
 
 
 
 
 
-  <title>Java调用外部程序 | Xavier's Blog</title>
+  <title>Netty学习(1)——IO多路复用 | Xavier's Blog</title>
   
 
 
@@ -269,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xavierqwb.github.io/java_invoke_system_procedure.html">
+    <link itemprop="mainEntityOfPage" href="https://xavierqwb.github.io/IO_multiplexing.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xavier 邱稳斌">
@@ -286,7 +294,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Java调用外部程序</h2>
+          <h2 class="post-title" itemprop="name headline">Netty学习(1)——IO多路复用</h2>
         
 
         <div class="post-meta">
@@ -298,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-07T21:37:39+08:00">
-                2017-03-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T22:49:37+08:00">
+                2018-02-01
               </time>
             
 
@@ -321,8 +329,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java基础/" itemprop="url" rel="index">
-                    <span itemprop="name">Java基础</span>
+                  <a href="/categories/Netty学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Netty学习</span>
                   </a>
                 </span>
 
@@ -339,9 +347,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/java_invoke_system_procedure.html#comments" itemprop="discussionUrl">
+                <a href="/IO_multiplexing.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="java_invoke_system_procedure.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="IO_multiplexing.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -349,7 +357,7 @@
 
           
           
-             <span id="/java_invoke_system_procedure.html" class="leancloud_visitors" data-flag-title="Java调用外部程序">
+             <span id="/IO_multiplexing.html" class="leancloud_visitors" data-flag-title="Netty学习(1)——IO多路复用">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -367,7 +375,7 @@
 
           
               <div class="post-description">
-                  在Java程序中调用外部系统的功能实现
+                  提到select、poll、epoll相信大家都耳熟能详了，三个都是IO多路复用的机制，可以监视多个描述符的读/写等事件，一旦某个描述符就绪（一般是读或者写事件发生了），就能够将发生的事件通知给关心的应用程序去处理该事件。本质上，select、poll、epoll本质上都是同步I/O......
               </div>
           
 
@@ -384,11 +392,58 @@
       
 
       
-        <p></p><p class="description"></p><br><a id="more"></a><p></p>
-<p>想在Java虚拟机调用外部程序，第一个想到的应是java.lang.runtime，然后利用runtime.exec方法得到process进程，但是这个方法有很多坑，例如不及时读取缓冲中的数据时，就会挂死</p>
-<p>后来发现了apache.commons.executor这个类，他在内部已经做好了足够的准备，至少不会发生挂死的情况</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.exec.CommandLine;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.exec.DefaultExecutor;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.exec.PumpStreamHandler;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//CommandLine command = CommandLine.parse("echo 123456789");  和下面的是一样的</span></span><br><span class="line">	</span><br><span class="line">	CommandLine command = <span class="keyword">new</span> CommandLine(<span class="string">"echo"</span>);</span><br><span class="line">	command.addArgument(<span class="string">"1234"</span>);</span><br><span class="line"></span><br><span class="line">	DefaultExecutor executor = <span class="keyword">new</span> DefaultExecutor();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果需要读取输出，则需要设置下列步骤</span></span><br><span class="line">	ByteArrayOutputStream outputStream = <span class="keyword">new</span> 	ByteArrayOutputStream();</span><br><span class="line">	PumpStreamHandler streamHandler = <span class="keyword">new</span> PumpStreamHandler(outputStream); </span><br><span class="line">	executor.setStreamHandler(streamHandler); </span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果需要在其他目录下工作，需要设置以下两步</span></span><br><span class="line">	File workingDirectory = <span class="keyword">new</span> File(<span class="string">"/home/user/"</span>)</span><br><span class="line">	executor.setWorkingDirectory(workingDirectory);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		executor.execute(commandLine);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	System.out.println(outputStream.toString());<span class="comment">// 读取输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 上述程序将会输出<code>1234</code>，值得注意的是，如果不设置streamHandler，程序会自动输出到console</p>
+        <p></p><p class="description"></p><br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRISqxGSPMmE3-xUhnnBYWXiJNGyZO8rEtiTjx-f0lWRFehfklX" alt="" style="width:50%"><br><a id="more"></a><p></p>
+<h2 id="Linux-IO模型介绍"><a href="#Linux-IO模型介绍" class="headerlink" title="Linux IO模型介绍"></a>Linux IO模型介绍</h2><p>网络IO实际上就是通过socket对数据进行读取，对于一次socket中的IO操作(例如read)，数据首先会被复制到操作系统内核的缓存区，然后再从内核缓存区复制到应用程序所在的用户空间。所以一个read操作，需要经过两个步骤：</p>
+<pre><code>1.等待数据被复制到内核缓存区
+2.操作系统将缓存区中的数据拷贝到用户空间
+</code></pre><p>Linux中的IO模型一般分为5种：</p>
+<pre><code>阻塞IO(Blocking IO), 非阻塞IO(Non-blocking IO), 多路复用IO(Mutiplexing IO), 信号驱动IO(Signal-driven IO), 异步IO(Asynchronous IO)
+</code></pre><p>接下来简单地介绍一下这5种IO模型：</p>
+<h3 id="阻塞IO-Blocking-IO"><a href="#阻塞IO-Blocking-IO" class="headerlink" title="阻塞IO(Blocking IO)"></a>阻塞IO(Blocking IO)</h3><pre><code>假如锅里正在烧水，同时你正想要洗衣服。因为你不知道锅里的水什么时候烧开，那么你就要先等水烧开，再去洗衣服，这就是阻塞IO，只能等一件事情完成了才能再去做第二件...
+</code></pre><p>阻塞IO是最常用且最简单的一个IO模型，在这个IO模型中，用户空间的应用程序执行一个系统调用之后，这会导致应用程序阻塞，什么也不干，直到数据准备好，并且由操作系统将数据从内核复制到用户进程之后，进程才从阻塞状态恢复，从而处理数据。</p>
+<p>大致的流程如图：</p>
+<p><img src="https://static.oschina.net/uploads/img/201604/20150405_VKYH.png" alt="阻塞IO"></p>
+<h3 id="非阻塞IO-Non-blocking-IO"><a href="#非阻塞IO-Non-blocking-IO" class="headerlink" title="非阻塞IO(Non-blocking IO)"></a>非阻塞IO(Non-blocking IO)</h3><pre><code>同样锅里正在烧水，你也正想要洗衣服，但是你不想等到水烧开了再去洗。于是想出一个主意，我洗一会儿衣服就过来看一眼水烧开了没有，这个动作就叫做轮询，这种模式就叫做非阻塞IO
+</code></pre><p>非阻塞的应用程序调用非阻塞IO之后，内核会立刻返回给调用进程，因此并没有被阻塞，内核马上返回给进程，如果数据还没准备好，此时会返回一个error。进程在返回之后，可以干点别的事情，然后再发起系统调用。重复上面的过程，循环往复的进行系统调用。这个过程通常被称之为轮询。轮询检查内核数据，直到数据准备好，再拷贝数据到进程，进行数据处理。</p>
+<p>大致的流程如图：</p>
+<p><img src="https://static.oschina.net/uploads/img/201604/20152818_DXcj.png" alt="非阻塞IO"></p>
+<h3 id="IO多路复用-IO-Mutiplexing"><a href="#IO多路复用-IO-Mutiplexing" class="headerlink" title="IO多路复用(IO Mutiplexing)"></a>IO多路复用(IO Mutiplexing)</h3><pre><code>这一次使用锅来烧水，使用洗衣机来洗衣服，你还有工作要忙就去工作了，但是你请了一位小管家来帮你照看，不过这个管家只负责看并不会主动告知你。于是你可以主动地问管家，有事情已经完成了吗？管家可以告诉你有或没有，如果有的话，你就可以主动去看看哪件事完成了，而继续下一步的操作。
+</code></pre><p>对于非阻塞IO而言，需要通过轮询的方式不断询问，会占用大量的CPU时间，对于请求众多的情况，对性能的影响就更加明显。于是就有人想到，对于那么多请求，可以只用一个单一的线程去查询各任务的状态，这就是IO多路复用了。Linux系统中的select/poll和epoll就是用来做这个工作的，本文主要也就是介绍三种IO多路复用的机制。</p>
+<p>IO多路复用的流程如图：</p>
+<p><img src="https://static.oschina.net/uploads/img/201604/20164149_LD8E.png" alt="IO多路复用"></p>
+<h3 id="信号驱动IO-Signal-driven-IO"><a href="#信号驱动IO-Signal-driven-IO" class="headerlink" title="信号驱动IO(Signal-driven IO)"></a>信号驱动IO(Signal-driven IO)</h3><pre><code>如果使用热水壶来烧水，自动洗衣机来洗衣服，我们就可以安心地做自己的工作。因为热水烧开时，会发出尖锐的声音，洗衣机洗完衣服之后也会发出提示，我们可以在收到提示之后去继续下一步的操作。
+</code></pre><p>如果我们允许Socket进行信号驱动IO，并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。</p>
+<p>大致流程如图：</p>
+<p><img src="https://static.oschina.net/uploads/img/201604/21091434_DsZb.png" alt="信号驱动IO"></p>
+<h3 id="异步IO-Asynchronous-IO"><a href="#异步IO-Asynchronous-IO" class="headerlink" title="异步IO(Asynchronous IO)"></a>异步IO(Asynchronous IO)</h3><pre><code>这次请了一位能干一点的管家，你只需要跟他说，帮我烧壶水，顺便把衣服洗了，然后你就可以继续自己的工作了，剩下的事情他会处理好，并在处理好之后告诉你。
+</code></pre><p>相对于同步IO，异步IO不是顺序执行。用户进程进行系统调用之后，无论内核数据是否准备好，都会直接返回给用户进程，然后用户态进程可以去做别的事情。等到socket数据准备好了，内核直接复制数据给进程，然后从内核向进程发送通知。</p>
+<p>大致流程如图：</p>
+<p><img src="https://static.oschina.net/uploads/img/201604/20175459_gtgw.png" alt="异步IO"></p>
+<h2 id="IO多路复用的3种机制"><a href="#IO多路复用的3种机制" class="headerlink" title="IO多路复用的3种机制"></a>IO多路复用的3种机制</h2><p>IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件已经准备就绪，它就通知该进程。IO多路复用适用如下场合：</p>
+<p>　　（1）当客户处理多个描述字时（一般是交互式输入和网络套接口），必须使用I/O复用。</p>
+<p>　　（2）当一个客户同时处理多个套接口时，而这种情况是可能的，但很少出现。</p>
+<p>　　（3）如果一个TCP服务器既要处理监听套接口，又要处理已连接套接口，一般也要用到I/O复用。</p>
+<p>　　（4）如果一个服务器即要处理TCP，又要处理UDP，一般要使用I/O复用。</p>
+<p>　　（5）如果一个服务器要处理多个服务或多个协议，一般要使用I/O复用。</p>
+<p>　　与多进程和多线程技术相比，I/O多路复用技术的最大优势是系统开销小，系统不必创建进程/线程，也不必维护这些进程/线程，从而大大减小了系统的开销。</p>
+<h3 id="select"><a href="#select" class="headerlink" title="select"></a>select</h3><pre><code>该函数准许进程指示内核等待多个事件中的任何一个发送，并只在有一个或多个事件发生或经历一段指定的时间后才唤醒。
+</code></pre><p>select的调用过程如下图所示：<br><img src="https://images0.cnblogs.com/blog/305504/201308/17201205-8ac47f1f1fcd4773bd4edd947c0bb1f4.png" alt="select调用过程"></p>
+<p>首先由进程调用read、write等IO函数，然后通过select函数查询其文件描述符是否就绪，此时进程可以选择阻塞等待或超时等待，一旦文件描述符就绪，就立刻返回，供进程执行下一步操作。</p>
+<p>select函数有以下缺点：</p>
+<blockquote>
+<p>1.每次调用select，都需要把fd集合从用户态拷贝到内核态，这个开销在fd很多时会很大</p>
+<p>2.同时每次调用select都需要在内核遍历传递进来的所有fd，这个开销在fd很多时也很大</p>
+<p>3.select支持的文件描述符数量太小了，默认是1024</p>
+</blockquote>
+<h3 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h3><pre><code>poll的机制与select类似，与select在本质上没有多大差别，管理多个描述符也是进行轮询，根据描述符的状态进行处理，但是poll没有最大文件描述符数量的限制。
+</code></pre><p>相对于select而言，poll最大的优势就是没有文件描述符的数量限制，其他的都差不多。</p>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><pre><code>epoll是在2.6内核中提出的，是之前的select和poll的增强版本。相对于select和poll来说，epoll更加灵活，没有描述符限制。epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。
+</code></pre><p>epoll函数解决了select函数的3个缺点</p>
+<p>首先epoll是通过epoll_create创建句柄的，而不像select函数是在每次调用时才将所有担心拷贝到内核的，因此epoll在创建之后，才通过epoll_ctl将一个个事件拷贝到内核，只拷贝了一次，而select是在每次调用的时候都要将所有的文件描述符拷贝到内核。</p>
+<p>对于第二个缺点，epoll是通过给每个fd添加一个回调函数，当这个fd就绪之后就调用这个回调函数将就绪的fd加入到一个列表中来实现的；而select则通过一次次轮询来检查是否就绪</p>
+<p>对于第三个缺点，epoll一般没有限制，epoll所能支持的上限一般由机器决定</p>
+<p>关于三种多路复用机制，更加深入的讲解可以参考：</p>
+<p><a href="http://www.cnblogs.com/Anker/archive/2013/08/14/3258674.html" target="_blank" rel="noopener">select</a>、<a href="http://www.cnblogs.com/Anker/archive/2013/08/15/3261006.html" target="_blank" rel="noopener">poll</a>、<a href="http://www.cnblogs.com/Anker/archive/2013/08/17/3263780.html" target="_blank" rel="noopener">epoll</a></p>
 <hr>
       
     </div>
@@ -416,7 +471,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Executor/" rel="tag"># Executor</a>
+            <a href="/tags/计算机系统/" rel="tag"># 计算机系统</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
           
         </div>
       
@@ -429,8 +486,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/json_in_python.html" rel="next" title="Python中json包的使用">
-                <i class="fa fa-chevron-left"></i> Python中json包的使用
+              <a href="/spring_scheduling.html" rel="next" title="Spring Scheduling">
+                <i class="fa fa-chevron-left"></i> Spring Scheduling
               </a>
             
           </div>
@@ -438,10 +495,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/java_file_write.html" rel="prev" title="Java写文件">
-                Java写文件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -505,8 +558,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -586,6 +648,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-IO模型介绍"><span class="nav-number">1.</span> <span class="nav-text">Linux IO模型介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞IO-Blocking-IO"><span class="nav-number">1.1.</span> <span class="nav-text">阻塞IO(Blocking IO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非阻塞IO-Non-blocking-IO"><span class="nav-number">1.2.</span> <span class="nav-text">非阻塞IO(Non-blocking IO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO多路复用-IO-Mutiplexing"><span class="nav-number">1.3.</span> <span class="nav-text">IO多路复用(IO Mutiplexing)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号驱动IO-Signal-driven-IO"><span class="nav-number">1.4.</span> <span class="nav-text">信号驱动IO(Signal-driven IO)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步IO-Asynchronous-IO"><span class="nav-number">1.5.</span> <span class="nav-text">异步IO(Asynchronous IO)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO多路复用的3种机制"><span class="nav-number">2.</span> <span class="nav-text">IO多路复用的3种机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select"><span class="nav-number">2.1.</span> <span class="nav-text">select</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#poll"><span class="nav-number">2.2.</span> <span class="nav-text">poll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll"><span class="nav-number">2.3.</span> <span class="nav-text">epoll</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -782,9 +860,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://xavierqwb.github.io/java_invoke_system_procedure.html';
-          this.page.identifier = 'java_invoke_system_procedure.html';
-          this.page.title = 'Java调用外部程序';
+          this.page.url = 'https://xavierqwb.github.io/IO_multiplexing.html';
+          this.page.identifier = 'IO_multiplexing.html';
+          this.page.title = 'Netty学习(1)——IO多路复用';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavier.disqus.com/embed.js';
