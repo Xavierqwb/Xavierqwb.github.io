@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="Xavier&#39;s Blog">
 <meta property="og:description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T11:31:19.439Z">
+<meta property="og:updated_time" content="2018-02-07T11:51:30.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置MySQL允许外网访问">
 <meta name="twitter:description" content="当本地安装完MySQL后，默认是只能使用本机访问数据库的，那么在将MySQL部署在服务器上之后，该如何用自己的电脑去访问呢？">
@@ -398,7 +398,7 @@ select user, host from user;
 <pre><code>mysql&gt; update user set host=&apos;%&apos; where user=&apos;root&apos;;
 mysql&gt; flush privileges;
 </code></pre><p>或者</p>
-<pre><code>mysql&gt;grand all privileges on  *.*  to &apos;root&apos;@&apos;%&apos;  identifies  by &apos;xxxx&apos;;
+<pre><code>mysql&gt;grant all privileges on  *.*  to &apos;root&apos;@&apos;%&apos;  identified  by &apos;xxxx&apos;;
 </code></pre><p>其中，<code>*.*</code> 的意思是，第一个<code>*</code>表示数据库名；第二个<code>*</code>表示该数据库的表名；如果像上面那样<code>*.*</code>的话表示所有的数据库下的所有表都允许访问</p>
 <p><code>&#39;%&#39;</code>：表示允许访问到mysql的ip地址；当然你也可以配置为具体到ip名称；%表示所有ip均可以访问；</p>
 <p>后面的<code>&#39;xxxx&#39;</code>为root 用户的password；</p>
@@ -553,7 +553,7 @@ mysql&gt; flush privileges;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -575,7 +575,7 @@ mysql&gt; flush privileges;
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

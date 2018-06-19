@@ -74,7 +74,7 @@
 
 
 
-  <meta name="keywords" content="Python,properties," />
+  <meta name="keywords" content="MyBatis, 拦截器, 分页" />
 
 
 
@@ -85,18 +85,18 @@
 
 
 
-<meta name="description" content="在Python中解析properties文件的脚本">
-<meta name="keywords" content="Python,properties">
+<meta name="description" content="在平时的后端开发工作中，经常会使用到分页查询的功能，有没有简单的方法可以自动进行这些繁琐而多余的操作呢？答案是有的">
+<meta name="keywords" content="MyBatis, 拦截器, 分页">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python解析properties脚本">
-<meta property="og:url" content="https://xavierqwb.github.io/properties_parse_in_python.html">
+<meta property="og:title" content="Mybatis分页拦截器">
+<meta property="og:url" content="https://xavierqwb.github.io/mybatis_page_interceptor.html">
 <meta property="og:site_name" content="Xavier&#39;s Blog">
-<meta property="og:description" content="在Python中解析properties文件的脚本">
+<meta property="og:description" content="在平时的后端开发工作中，经常会使用到分页查询的功能，有没有简单的方法可以自动进行这些繁琐而多余的操作呢？答案是有的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T11:36:06.364Z">
+<meta property="og:updated_time" content="2018-06-19T08:48:58.293Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python解析properties脚本">
-<meta name="twitter:description" content="在Python中解析properties文件的脚本">
+<meta name="twitter:title" content="Mybatis分页拦截器">
+<meta name="twitter:description" content="在平时的后端开发工作中，经常会使用到分页查询的功能，有没有简单的方法可以自动进行这些繁琐而多余的操作呢？答案是有的">
 
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://xavierqwb.github.io/properties_parse_in_python.html"/>
+  <link rel="canonical" href="https://xavierqwb.github.io/mybatis_page_interceptor.html"/>
 
 
 
 
 
-  <title>Python解析properties脚本 | Xavier's Blog</title>
+  <title>Mybatis分页拦截器 | Xavier's Blog</title>
   
 
 
@@ -269,7 +269,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xavierqwb.github.io/properties_parse_in_python.html">
+    <link itemprop="mainEntityOfPage" href="https://xavierqwb.github.io/mybatis_page_interceptor.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xavier 邱稳斌">
@@ -286,7 +286,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Python解析properties脚本</h2>
+          <h2 class="post-title" itemprop="name headline">Mybatis分页拦截器</h2>
         
 
         <div class="post-meta">
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-03T21:45:58+08:00">
-                2017-02-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T20:13:34Z">
+                2018-06-13
               </time>
             
 
@@ -321,8 +321,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
                   </a>
                 </span>
 
@@ -339,9 +339,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/properties_parse_in_python.html#comments" itemprop="discussionUrl">
+                <a href="/mybatis_page_interceptor.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="properties_parse_in_python.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="mybatis_page_interceptor.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -349,7 +349,7 @@
 
           
           
-             <span id="/properties_parse_in_python.html" class="leancloud_visitors" data-flag-title="Python解析properties脚本">
+             <span id="/mybatis_page_interceptor.html" class="leancloud_visitors" data-flag-title="Mybatis分页拦截器">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -367,7 +367,7 @@
 
           
               <div class="post-description">
-                  在Python中解析properties文件的脚本
+                  在平时的后端开发工作中，经常会使用到分页查询的功能，有没有简单的方法可以自动进行这些繁琐而多余的操作呢？答案是有的
               </div>
           
 
@@ -384,14 +384,93 @@
       
 
       
-        <p class="description"></p>
+        <p></p><p class="description"></p><br><a id="more"></a><p></p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>在平时的后端开发工作中，经常会使用到分页查询的功能，往往这时候就要把pageNum和pageSize这样的参数传入到dao中，而传回给前端的数据中还会包括有totalNum和totalPage这样的值，就得分开几条sql去查询。</p>
+<p>有没有好的方法可以自动进行这些繁琐而多余的操作呢？mybatis为我们提供了插件这样的方式，插件实际上也就是拦截器，通过拦截器，我们可以隐式地为我们的sql注入分页查询的功能，也可以将查询totalNum和totalPage的功能放入到拦截器中进行。</p>
+<h4 id="Mybatis拦截器的使用"><a href="#Mybatis拦截器的使用" class="headerlink" title="Mybatis拦截器的使用"></a>Mybatis拦截器的使用</h4><p>首先，使用Mybatis的拦截器需要实现拦截器的接口，org.apache.ibatis.plugin.Interceptor:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Intercepts</span>(<span class="meta">@Signature</span>(type = StatementHandler.class, method = <span class="string">"prepare"</span>, args = &#123;Connection.class, Integer.class&#125;))</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Invocation invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">plugin</span><span class="params">(Object target)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setProperties</span><span class="params">(Properties properties)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Interceptor注解标识这个类是一个Mybatis的拦截器，@Signature注解表明了要拦截哪个类的哪个方法(StatementHandler类的prepare方法，该方法的参数为Connection.class和Integer.class)</p>
+<p>Interceptor接口有三个方法，分别是intercept、plugin和setProperties，其中plugin方法是用来封装目标对象的，Mybatis中已经有一个实现的方法——org.apache.ibatis.plugin.Plugin.wrap，研究源码会发现，该方法实际上就是一个动态代理的过程，将我们写在Interceptor中的intercept方法添加在拦截的方法前面。</p>
+<p>而intercept方法则是拦截器的核心，我们通过该方法来具体实现拦截器的功能。</p>
+<p>setProperties方法貌似是用来设置Mybatis属性的。</p>
+<p>除此之外，还要将这个拦截器注册到SQLSessionFactory的Bean中：</p>
+<pre><code>&lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;
+    &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis/config.xml&quot;/&gt;
+    &lt;property name=&quot;mapperLocations&quot; value=&quot;classpath:mybatis/mapper/*.xml&quot;/&gt;
+    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+    &lt;property name=&quot;plugins&quot;&gt;
+        &lt;array&gt;
+            &lt;ref bean=&quot;myInterceptor&quot;/&gt;
+        &lt;/array&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
 
-<a id="more"></a>
-<p>在项目中遇到解析properties的情况，而Python中正好没有解析properties文件的现成模块，于是从网上找到了这个脚本，有一些小地方修改了一下</p>
-<h3 id="原博客：-Python读写properties文件"><a href="#原博客：-Python读写properties文件" class="headerlink" title="原博客：      Python读写properties文件"></a>原博客：      <a href="http://blog.csdn.net/cdecde111/article/details/51888702" target="_blank" rel="noopener">Python读写properties文件</a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Properties</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        self.file_name = file_name</span><br><span class="line">        self.properties = &#123;&#125;</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            fopen = open(self.file_name, <span class="string">'r'</span>)</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> fopen:</span><br><span class="line">                line = line.strip()</span><br><span class="line">                <span class="keyword">if</span> line.find(<span class="string">'='</span>) &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> line.startswith(<span class="string">'#'</span>):</span><br><span class="line">                    strs = line.split(<span class="string">'='</span>)</span><br><span class="line">                    self.properties[strs[<span class="number">0</span>].strip()] = strs[<span class="number">1</span>].strip()</span><br><span class="line">        <span class="keyword">except</span> Exception, e:</span><br><span class="line">            <span class="keyword">raise</span> e</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            fopen.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_key</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> key <span class="keyword">in</span> self.properties</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key, default_value=<span class="string">''</span>)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.properties:</span><br><span class="line">            <span class="keyword">return</span> self.properties[key]</span><br><span class="line">        <span class="keyword">return</span> default_value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        self.properties[key] = value</span><br><span class="line">        replace_property(self.file_name, key + <span class="string">'=.*'</span>, key + <span class="string">'='</span> + value, <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(file_name)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> Properties(file_name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">replace_property</span><span class="params">(file_name, from_regex, to_str, append_on_not_exists=True)</span>:</span></span><br><span class="line">    tmpfile = tempfile.TemporaryFile()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(file_name):</span><br><span class="line">        r_open = open(file_name, <span class="string">'r'</span>)</span><br><span class="line">        pattern = re.compile(<span class="string">r''</span> + from_regex)</span><br><span class="line">        found = <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> r_open:</span><br><span class="line">            <span class="keyword">if</span> pattern.search(line) <span class="keyword">and</span> <span class="keyword">not</span> line.strip().startswith(<span class="string">'#'</span>):</span><br><span class="line">                found = <span class="keyword">True</span></span><br><span class="line">                line = re.sub(from_regex, to_str, line)</span><br><span class="line">            tmpfile.write(line)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> found <span class="keyword">and</span> append_on_not_exists:</span><br><span class="line">            tmpfile.write(<span class="string">'\n'</span> + to_str)</span><br><span class="line">        r_open.close()</span><br><span class="line">        tmpfile.seek(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        content = tmpfile.read()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> os.path.exists(file_name):</span><br><span class="line">            os.remove(file_name)</span><br><span class="line"></span><br><span class="line">        w_open = open(file_name, <span class="string">'w'</span>)</span><br><span class="line">        w_open.write(content)</span><br><span class="line">        w_open.close()</span><br><span class="line"></span><br><span class="line">        tmpfile.close()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"file %s not found"</span> % file_name</span><br></pre></td></tr></table></figure>
-<h3 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">file_path = <span class="string">'xxx.properties'</span></span><br><span class="line">props = property.parse(file_path)   <span class="comment">#读取文件</span></span><br><span class="line">props.put(<span class="string">'key_a'</span>, <span class="string">'value_a'</span>)       <span class="comment">#修改/添加key=value</span></span><br><span class="line"><span class="keyword">print</span> props.get(<span class="string">'key_a'</span>)            <span class="comment">#根据key读取value</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"props.has_key('key_a')="</span> + str(props.has_key(<span class="string">'key_a'</span>))   <span class="comment">#判断是否包含该key</span></span><br></pre></td></tr></table></figure>
-<p>参考：<br><a href="http://blog.sina.com.cn/s/blog_6a24f10901018lhn.html" target="_blank" rel="noopener">Python实用脚本（1）：读取Properties文件</a></p>
-<hr>
+&lt;bean id=&quot;myInterceptor&quot; class=&quot;com.netease.haitao.MyInterceptor&quot;/&gt;
+</code></pre><h4 id="写一个分页的拦截器"><a href="#写一个分页的拦截器" class="headerlink" title="写一个分页的拦截器"></a>写一个分页的拦截器</h4><p>首先定义一个PagePOJO，包含以下几个属性：</p>
+<pre><code>     /**
+ * 当前页，1基址
+ */
+private Integer currentPage = null;
+/**
+ * 每页记录数
+ */
+private Integer recordPerPage = null;
+/**
+ * 总页数
+ */
+private Integer totalPage = null;
+/**
+ * 总记录数
+ */
+private Integer totalRecord = null;
+</code></pre><p>然后开始定义自己的intercept方法(getValueByFieldName和getFieldByFieldName等是通过反射实现的一些方法)：</p>
+<pre><code>RoutingStatementHandler statementHandler = (RoutingStatementHandler)invocation.getTarget();  
+BaseStatementHandler delegate = (BaseStatementHandler) getValueByFieldName(statementHandler, &quot;delegate&quot;);  
+MappedStatement mappedStatement = (MappedStatement) getValueByFieldName(delegate, &quot;mappedStatement&quot;); 
+
+BoundSql boundSql = delegate.getBoundSql();  
+String sql = boundSql.getSql();
+
+if(mappedStatement.getId().matches(&quot;.*ByPage&quot;)) {
+    Object parameterObject = boundSql.getParameterObject();
+    if(parameterObject != null)  {  
+        PagePOJO pagePOJO = null;  
+        pagePOJO = (PagePOJO)((Map&lt;?, ?&gt;)parameterObject).get(&quot;pagePOJO&quot;);
+
+        if (pagePOJO == null) {
+            // 不需要分页信息,直接返回
+            return invocation.proceed();  
+        }
+
+        int count = 0;
+
+        Connection connection = (Connection) invocation.getArgs()[0];
+    String countSql = this.dialect.getCountString(sql); // 通过解析原sql生成计数的sql语句
+        try (PreparedStatement countStmt = connection.prepareStatement(countSql);ResultSet rs = countStmt.executeQuery())  {                   
+            if (rs.next())  {  
+                count = rs.getInt(1);  
+            }  
+        } catch (Exception e) {
+            LOG.error(&quot;error:{} &quot;, e);
+        } 
+
+        // 将总数和页数插入PagePOJO中
+        pagePOJO.setTotalRecord(count);
+        pagePOJO.setTotalPage(((count - 1) / pagePOJO.getRecordPerPage()) + 1);
+
+        String pageSql = this.dialect.getLimitString(sql, pagePOJO.getOffset(), pagePOJO.getLimit()); //解析原sql生成插入limit分页的sql
+
+        setValueByFieldName(boundSql, &quot;sql&quot;, pageSql); // 用新的sql覆盖原sql
+    }
+}
+return invocation.proceed(); // 继续执行
+</code></pre><p>plugin方法:</p>
+<pre><code>public Object plugin(Object arg0) {  
+    return Plugin.wrap(arg0, this);  
+}
+</code></pre><p>而setProperties方法此处不需要使用，为空方法。</p>
+<p>写好之后，只要在编写DAO的时候，将需要使用分页功能方法的名字写成以ByPage结尾，并且传入一个PagePOJO参数即可。<br>不过因为在拦截器的代码中，我们的POJO对象是通过<code>(Map&lt;?, ?&gt;)parameterObject.get(&quot;pagePOJO&quot;)</code>来取得的，因此传入参数的时候，需要借助Map传入，或者使用@Param(“pagePOJO”)注解，为参数设置一个key，否则会抛异常哦</p>
+
       
     </div>
     
@@ -418,9 +497,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/MyBatis/" rel="tag"># MyBatis</a>
           
-            <a href="/tags/properties/" rel="tag"># properties</a>
+            <a href="/tags/Interceptpor/" rel="tag"># Interceptpor</a>
+          
+            <a href="/tags/分页/" rel="tag"># 分页</a>
           
         </div>
       
@@ -433,8 +514,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/google_java_style.html" rel="next" title="Google Java style中文版">
-                <i class="fa fa-chevron-left"></i> Google Java style中文版
+              <a href="/IO_multiplexing.html" rel="next" title="Netty学习(1)——IO多路复用">
+                <i class="fa fa-chevron-left"></i> Netty学习(1)——IO多路复用
               </a>
             
           </div>
@@ -443,8 +524,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/http_request_in_python.html" rel="prev" title="Python发送http请求">
-                Python发送http请求 <i class="fa fa-chevron-right"></i>
+              <a href="/mybatis_pageHelper.html" rel="prev" title="PageHelper">
+                PageHelper <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -609,7 +690,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原博客：-Python读写properties文件"><span class="nav-number">1.</span> <span class="nav-text">原博客：      Python读写properties文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方式："><span class="nav-number">2.</span> <span class="nav-text">使用方式：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mybatis拦截器的使用"><span class="nav-number">2.</span> <span class="nav-text">Mybatis拦截器的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写一个分页的拦截器"><span class="nav-number">3.</span> <span class="nav-text">写一个分页的拦截器</span></a></li></ol></div>
             
 
           </div>
@@ -811,9 +892,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://xavierqwb.github.io/properties_parse_in_python.html';
-          this.page.identifier = 'properties_parse_in_python.html';
-          this.page.title = 'Python解析properties脚本';
+          this.page.url = 'https://xavierqwb.github.io/mybatis_page_interceptor.html';
+          this.page.identifier = 'mybatis_page_interceptor.html';
+          this.page.title = 'Mybatis分页拦截器';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavier.disqus.com/embed.js';

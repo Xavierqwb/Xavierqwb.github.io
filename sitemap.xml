@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://xavierqwb.github.io/mybatis_pageHelper.html</loc>
+    
+    <lastmod>2018-06-19T08:52:18.003Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://xavierqwb.github.io/mybatis_page_interceptor.html</loc>
+    
+    <lastmod>2018-06-19T08:48:58.293Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://xavierqwb.github.io/allow_mysql_visit_outside.html</loc>
+    
+    <lastmod>2018-02-07T11:51:30.762Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://xavierqwb.github.io/IO_multiplexing.html</loc>
     
     <lastmod>2018-02-01T08:39:39.276Z</lastmod>
@@ -89,13 +110,6 @@
     <loc>https://xavierqwb.github.io/google_java_style.html</loc>
     
     <lastmod>2018-01-29T11:34:19.801Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://xavierqwb.github.io/allow_mysql_visit_outside.html</loc>
-    
-    <lastmod>2018-01-29T11:31:19.439Z</lastmod>
     
   </url>
   
